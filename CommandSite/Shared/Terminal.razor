@@ -1,0 +1,32 @@
+﻿<div class="terminal container">
+    <div class="inputline">
+        <div class="prompt">@Prompt</div>
+        <input class="terminal input" autofocus @onkeydown="@KeyDown" @bind="command" spellcheck="false" contenteditable="@editable"/>
+    </div>
+    <p class="terminal output">@result</p>
+</div>
+@code {
+    private static readonly string Prompt = @"[root@willboulton] #";
+
+
+    private string command;
+    private string result;
+    private bool editable = true;
+
+    private void KeyDown(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+                //do something with the value in the textbox;
+
+                if (command.ToLower().StartsWith("cat"))
+                {
+                    result =" ／|、       \n"+
+                            "ﾞ（ﾟ､ ｡ ７     \n"+
+                            "　|、ﾞ ~ヽ     \n"+
+                            "　じしf_, )ノ  ";
+                }
+                editable = false;
+        }
+    }
+}

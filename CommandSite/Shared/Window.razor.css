@@ -1,0 +1,16 @@
+﻿.window_frame {
+    box-shadow: 5px 5px 24px 1px rgba(0,0,0,0.67);
+    width: 70%;
+    height: 70%;
+    border-radius: 5px;
+    border: 1px solid black;
+    background: #2D2D2D66;
+}
+
+.title_bar {
+    display: flex;
+    color: gray;
+    border-bottom: 1px solid black;
+    padding-left: 20px;
+    background: #2D2D2D;
+}

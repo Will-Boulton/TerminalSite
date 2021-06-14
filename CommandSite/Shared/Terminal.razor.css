@@ -1,0 +1,44 @@
+﻿.container {
+    padding: .1em 1.5em 1em 1em;
+}
+
+
+
+.prompt {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    display: box;
+    box-pack: center;
+    box-orient: vertical;
+}
+
+.terminal {
+    background: transparent;
+    width: 100%;
+    outline: none;
+    font: inherit;
+    border: none;
+    color: #d08813;
+    font-family: monospace;
+    caret-color: #d08813;
+}
+
+.inputline {
+    display: box;
+    box-orient: horizontal;
+    box-align: stretch;
+    clear: both;
+}
+
+.output {
+    white-space: pre-line;
+    -webkit-animation: type .5s 1s steps(20, end) forwards;
+    -moz-animation: type .5s 1s steps(20, end) forwards;
+    -o-animation: type .5s 1s steps(20, end) forwards;
+    animation: type .5s 1s steps(20, end) forwards;
+}
+
+.input {
+    box-flex: 1;
+}
