@@ -4,7 +4,8 @@
     height: 70%;
     border-radius: 5px;
     border: 1px solid black;
-    background: #2D2D2D66;
+    background: #262626E6;
+    overflow: hidden;
 }
 
 .title_bar {
@@ -12,5 +13,6 @@
     color: gray;
     border-bottom: 1px solid black;
     padding-left: 20px;
-    background: #2D2D2D;
+    background: #4C5B5C;
+    width:100%;
 }
