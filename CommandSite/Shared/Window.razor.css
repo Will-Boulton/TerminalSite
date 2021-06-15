@@ -5,9 +5,9 @@
     border-radius: 5px;
     border: 1px solid black;
     background: #262626E6;
-    overflow: hidden;
     display:flex;
     flex-direction:column;
+    overflow:hidden;
 }
 
 .title_bar {
@@ -20,4 +20,5 @@
 
 .window_content{
     flex-grow:1;
+    overflow-y:scroll;
 }

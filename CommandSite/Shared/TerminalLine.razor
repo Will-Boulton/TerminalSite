@@ -1,0 +1,72 @@
+﻿@inject IJSRuntime jsRuntime
+<div class="terminal">
+    <div class="inputline">
+        <div class="prompt">@Prompt</div>
+        <input class="terminal input" @onkeyup="@KeyUp" @bind="command" spellcheck="false" disabled="@disabled" autofocus="@(!disabled)" @ref="input" />
+    </div>
+    <p class="terminal output" pre>@result</p>
+</div>
+@code {
+    private static readonly string Prompt = @"$root # ";
+    private static int key_ = 0;
+
+    public int Key = key_++;
+
+    [Parameter]
+    public Terminal Parent { get;set; }
+
+    public string command = "";
+    public string result = "";
+    private bool disabled = false;
+
+    private ElementReference input;
+
+    private void KeyUp(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            disabled = true;
+            Sumbit(command);
+        }
+
+        if (e.Code == "Up")
+        {
+            if(Parent.commands.Count > 0)
+                command = Parent.commands.Pop();
+            else
+                {
+                    command = string.Empty;
+                }
+        }
+    }
+
+    private void Sumbit(string value)
+    {
+        string[] split = value.Split(null);
+
+        if(split.Length > 0)
+        {
+            string keyCommand = split[0].ToLower();
+
+            if (Parent.commandOptions.TryGetValue(value, out Command response))
+            {
+                result = response.Response(split.Skip(1).ToArray());
+
+            }
+        }
+
+        if(!string.IsNullOrEmpty(value))
+            Parent.commands.Push(value);
+
+        Parent.AddNew();
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !disabled)
+        {
+            await jsRuntime.InvokeVoidAsync("SetFocusToElement", input);
+        }
+    }
+
+}

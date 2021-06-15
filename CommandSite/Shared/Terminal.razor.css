@@ -1,17 +1,5 @@
-﻿.container {
-    padding:0.3em;
-}
+﻿.terminal{
 
-
-
-.prompt {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-    white-space: pre;
-}
-
-.terminal {
     background: transparent;
     outline: none;
     font: inherit;
@@ -21,19 +9,6 @@
     caret-color: #d08813;
 }
 
-.inputline {
-    display: flex;
-
-}
-
-.output {
-    white-space: pre-line;
-    -webkit-animation: type .5s 1s steps(20, end) forwards;
-    -moz-animation: type .5s 1s steps(20, end) forwards;
-    -o-animation: type .5s 1s steps(20, end) forwards;
-    animation: type .5s 1s steps(20, end) forwards;
-}
-
-.input {
-    flex-grow: 1;
+.container {
+    padding: 0.3em;
 }
