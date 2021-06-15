@@ -6,13 +6,18 @@
     border: 1px solid black;
     background: #262626E6;
     overflow: hidden;
+    display:flex;
+    flex-direction:column;
 }
 
 .title_bar {
     display: flex;
     color: gray;
     border-bottom: 1px solid black;
-    padding-left: 20px;
     background: #4C5B5C;
     width:100%;
+}
+
+.window_content{
+    flex-grow:1;
 }

@@ -1,5 +1,5 @@
 ﻿.container {
-    padding: .1em 1.5em 1em 1em;
+    padding:0.3em;
 }
 
 
@@ -8,14 +8,11 @@
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
-    display: box;
-    box-pack: center;
-    box-orient: vertical;
+    white-space: pre;
 }
 
 .terminal {
     background: transparent;
-    width: 100%;
     outline: none;
     font: inherit;
     border: none;
@@ -25,10 +22,8 @@
 }
 
 .inputline {
-    display: box;
-    box-orient: horizontal;
-    box-align: stretch;
-    clear: both;
+    display: flex;
+
 }
 
 .output {
@@ -40,5 +35,5 @@
 }
 
 .input {
-    box-flex: 1;
+    flex-grow: 1;
 }
