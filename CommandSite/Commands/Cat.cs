@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CommandSite.Commands
@@ -14,7 +15,7 @@ namespace CommandSite.Commands
 
         public override string CommandKey => "cat"; 
 
-        public override void Response(TerminalOutput output, params string[] parameters)
+        public override async void Response(TerminalOutput output, params string[] parameters)
         {
             var cat =
 @"
@@ -23,8 +24,12 @@ namespace CommandSite.Commands
                      |、ﾞ ~ヽ      
                      じしf_, )ノ  ";
 
-            output.AddLine(cat);
-
+            
+            foreach (var line in cat.Split(Environment.NewLine))
+            {
+                output.AddLine(line);
+                await Task.Delay(25);
+            }
         }
     }
 
