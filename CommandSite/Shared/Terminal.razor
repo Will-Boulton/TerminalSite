@@ -16,8 +16,8 @@
         commands = new List<Command>()
         {
             new CatCommand(this),
-            new MultiValueCommand("git","Display github URL",this, _ => "\n <a href=\"https://github.com/Will-Boulton \" target=\"_blank\">https://github.com/Will-Boulton</a> \n"),
-            new MultiValueCommand("linkedin","Display linkedin URL",this,_ => "\n <a href=\"https://www.linkedin.com/in/will-boulton \" target=\"_blank\">https://www.linkedin.com/in/will-boulton/</a> \n"),
+            new URLCommand("GitHub",Constants.GitHubURL,this),
+            new URLCommand("LinkedIn",Constants.LinkedInURL,this),
             new ClearCommand(this),
             new HelpCommand(this)
         };
@@ -34,21 +34,21 @@
 
             foreach (var command in value)
             {
-                commandOptions.Add(command.CommandKey, command);
+                commandOptions.Add(command.CommandKey.ToLower(), command);
             }
         }
     }
 
     public string RunCommand(string key, TerminalOutput output,params string[] parameters)
     {
-        if(commandOptions.TryGetValue(key, out Command command))
+        if(commandOptions.TryGetValue(key.ToLower(), out Command command))
         {
             command.Response(output, parameters);
         }
         return "";
     }
 
-    public Stack<string> PreviousCommands = new Stack<string>();
+    public List<string> PreviousCommands = new List<string>();
 
     public void AddNew()
     {

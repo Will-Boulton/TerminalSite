@@ -22,6 +22,6 @@ namespace CommandSite
             Terminal = terminal;
             AdditionalHelpStrings = SetAdditionalHelpStrings();
         }
-        public abstract void Response(TerminalOutput output, params string[] parameters);
+        public abstract  void Response(TerminalOutput output, params string[] parameters);
     }
 }

@@ -9,10 +9,8 @@ namespace CommandSite.Commands
 {
     public class MultiValueCommand : Command
     {
-        private string[] labels;
         public MultiValueCommand(string key, string helpText, Terminal terminal, Func<string[],string> onRun) :base(terminal)
         {
-            this.labels = labels;
             _key = key;
             _helpText = helpText;
             _onRun = onRun; 

@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\fontawesome\**" />
+    <Content Remove="wwwroot\fontawesome\**" />
+    <EmbeddedResource Remove="wwwroot\fontawesome\**" />
+    <None Remove="wwwroot\fontawesome\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Shared\TerminalOutput.razor.css" />
   </ItemGroup>
 

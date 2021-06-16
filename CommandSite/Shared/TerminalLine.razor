@@ -30,10 +30,22 @@
             Sumbit(command);
         }
 
-        if (e.Code == "Up")
+        if (e.Code == "ArrowUp")
         {
-            if(Parent.PreviousCommands.Count > 0)
-                command = Parent.PreviousCommands.Pop();
+            commandIndex = Math.Max(commandIndex - 1,0);
+            if (Parent.PreviousCommands.Count > 0)
+                command = Parent.PreviousCommands[Parent.PreviousCommands.Count - commandIndex];
+            else
+            {
+                command = string.Empty;
+            }
+            StateHasChanged();
+        }
+        else if (e.Code == "ArrowDown")
+        {
+            commandIndex = Math.Min(commandIndex + 1, Parent.PreviousCommands.Count - 1);
+            if (Parent.PreviousCommands.Count > 0)
+                command = Parent.PreviousCommands[Parent.PreviousCommands.Count - commandIndex];
             else
             {
                 command = string.Empty;
@@ -41,6 +53,8 @@
             StateHasChanged();
         }
     }
+
+    private int commandIndex = 0;
 
     private void Sumbit(string value)
     {
@@ -54,8 +68,8 @@
         }
 
         if(!string.IsNullOrEmpty(value))
-            Parent.PreviousCommands.Push(value);
-
+            Parent.PreviousCommands.Add(value);
+        commandIndex = Parent.PreviousCommands.Count - 1;
         Parent.AddNew();
     }
 

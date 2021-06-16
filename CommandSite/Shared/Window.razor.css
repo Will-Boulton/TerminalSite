@@ -12,10 +12,20 @@
 
 .title_bar {
     display: flex;
+    align-items: center;
     color: gray;
     border-bottom: 1px solid black;
     background: #4C5B5C;
-    width:100%;
+    padding: 2px 5px 2px 5px;
+    justify-content: space-between;
+}
+
+.button_div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    justify-self: flex-end;
+    color: black;
 }
 
 .window_content{

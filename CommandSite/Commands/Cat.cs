@@ -22,9 +22,8 @@ namespace CommandSite.Commands
                       ／|、        
         meow      ﾞ （ﾟ､ ｡ ７     
                      |、ﾞ ~ヽ      
-                     じしf_, )ノ  ";
-
-            
+                     じしf_, )ノ  
+                                    ";
             foreach (var line in cat.Split(Environment.NewLine))
             {
                 output.AddLine(line);
