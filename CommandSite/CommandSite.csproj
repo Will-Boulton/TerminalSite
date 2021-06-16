@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Shared\TerminalOutput.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Shared\TerminalOutput.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\FocusAssist.js" />
   </ItemGroup>
 

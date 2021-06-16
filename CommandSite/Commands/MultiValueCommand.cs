@@ -10,23 +10,23 @@ namespace CommandSite.Commands
     public class MultiValueCommand : Command
     {
         private string[] labels;
-        public MultiValueCommand(string description, string helpText, Terminal terminal, params string[] labels) :base(terminal)
+        public MultiValueCommand(string key, string helpText, Terminal terminal, Func<string[],string> onRun) :base(terminal)
         {
             this.labels = labels;
+            _key = key;
+            _helpText = helpText;
+            _onRun = onRun; 
         }
 
-        public override string Response(params string[] parameters)
-        {
-            StringBuilder sb = new StringBuilder();
+        private string _key;
 
-            for (int i = 0; i < labels.Length; i++)
-            {
-                sb.Append(labels[i]);
+        private string _helpText;
 
-                if((i+1) % labels.Length != 0)
-                    sb.Append(" -- ");
-            }
-            return sb.ToString();
-        }
+        private Func<string[], string> _onRun;
+        public override string CommandKey => _key;
+
+        public override string HelpString => _helpText;
+
+        public override void Response(TerminalOutput output, params string[] parameters) => output.AddLine(_onRun(parameters));
     }
 }

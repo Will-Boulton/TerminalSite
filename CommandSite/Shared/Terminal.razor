@@ -7,35 +7,48 @@
     }
 </div>
 @code {
+    List<TerminalLine> lines;
 
-    public Terminal()
+    protected override void OnInitialized()
     {
-        lines = new List<TerminalLine>(){new TerminalLine() { Parent = this } };
-
-        commandOptions = new Dictionary<string, Command>()
+        commandOptions = new Dictionary<string, Command>();
+        lines = new List<TerminalLine>() { new TerminalLine() { Parent = this } };
+        commands = new List<Command>()
         {
-            {
-                "cat",
-                new CatCommand(this)
-            },
-            {
-                "git",
-                new MultiValueCommand("Displays github URL","Display github URL",this,"GitHub", "https://github.com/Will-Boulton")
-            },
-            {
-                "help",
-                new HelpCommand(this)
-            },
-            {
-                "clear",
-                new ClearCommand(this)
-            }
+            new CatCommand(this),
+            new MultiValueCommand("git","Display github URL",this, _ => "\n <a href=\"https://github.com/Will-Boulton \" target=\"_blank\">https://github.com/Will-Boulton</a> \n"),
+            new MultiValueCommand("linkedin","Display linkedin URL",this,_ => "\n <a href=\"https://www.linkedin.com/in/will-boulton \" target=\"_blank\">https://www.linkedin.com/in/will-boulton/</a> \n"),
+            new ClearCommand(this),
+            new HelpCommand(this)
         };
     }
 
-    List<TerminalLine> lines;
+    private List<Command> _commands;
 
-    public Stack<string> commands = new Stack<string>();
+    public List<Command> commands
+    {
+        get => _commands;
+        private set
+        {
+            _commands = value;
+
+            foreach (var command in value)
+            {
+                commandOptions.Add(command.CommandKey, command);
+            }
+        }
+    }
+
+    public string RunCommand(string key, TerminalOutput output,params string[] parameters)
+    {
+        if(commandOptions.TryGetValue(key, out Command command))
+        {
+            command.Response(output, parameters);
+        }
+        return "";
+    }
+
+    public Stack<string> PreviousCommands = new Stack<string>();
 
     public void AddNew()
     {

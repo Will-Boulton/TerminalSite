@@ -4,7 +4,7 @@
         <div class="prompt">@Prompt</div>
         <input class="terminal input" @onkeyup="@KeyUp" @bind="command" spellcheck="false" disabled="@disabled" autofocus="@(!disabled)" @ref="input" />
     </div>
-    <p class="terminal output" pre>@result</p>
+    <TerminalOutput @ref="output"/>
 </div>
 @code {
     private static readonly string Prompt = @"$root # ";
@@ -16,10 +16,11 @@
     public Terminal Parent { get;set; }
 
     public string command = "";
-    public string result = "";
     private bool disabled = false;
 
     private ElementReference input;
+
+    private TerminalOutput output;
 
     private void KeyUp(KeyboardEventArgs e)
     {
@@ -31,12 +32,13 @@
 
         if (e.Code == "Up")
         {
-            if(Parent.commands.Count > 0)
-                command = Parent.commands.Pop();
+            if(Parent.PreviousCommands.Count > 0)
+                command = Parent.PreviousCommands.Pop();
             else
-                {
-                    command = string.Empty;
-                }
+            {
+                command = string.Empty;
+            }
+            StateHasChanged();
         }
     }
 
@@ -48,15 +50,11 @@
         {
             string keyCommand = split[0].ToLower();
 
-            if (Parent.commandOptions.TryGetValue(value, out Command response))
-            {
-                result = response.Response(split.Skip(1).ToArray());
-
-            }
+            Parent.RunCommand(keyCommand, output,split.Skip(1).ToArray());
         }
 
         if(!string.IsNullOrEmpty(value))
-            Parent.commands.Push(value);
+            Parent.PreviousCommands.Push(value);
 
         Parent.AddNew();
     }

@@ -6,18 +6,25 @@ using System.Threading.Tasks;
 
 namespace CommandSite.Commands
 {
-    [CommandHelp("cat", "A cute little cat", "")]
     public class CatCommand : Command
     {
         public CatCommand(Terminal terminal) : base(terminal) { }
-        public override string Response(params string[] parameters)
+
+        public override string HelpString => "A cute little cat";
+
+        public override string CommandKey => "cat"; 
+
+        public override void Response(TerminalOutput output, params string[] parameters)
         {
-            return
+            var cat =
 @"
                       ／|、        
         meow      ﾞ （ﾟ､ ｡ ７     
                      |、ﾞ ~ヽ      
                      じしf_, )ノ  ";
+
+            output.AddLine(cat);
+
         }
     }
 

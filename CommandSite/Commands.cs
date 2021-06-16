@@ -7,20 +7,21 @@ using System.Threading.Tasks;
 
 namespace CommandSite
 {
-    public static class Commander
-    {
-
-        
-    }
-
-
     public abstract class Command
     {
+        public abstract string CommandKey { get; }
+        public abstract string HelpString { get; }
+
+        protected virtual List<string> SetAdditionalHelpStrings() => new List<string>();
+
+        public List<string> AdditionalHelpStrings;
+
         protected Terminal Terminal;
         protected Command(Terminal terminal)
         {
             Terminal = terminal;
+            AdditionalHelpStrings = SetAdditionalHelpStrings();
         }
-        public abstract string Response(params string[] parameters);
+        public abstract void Response(TerminalOutput output, params string[] parameters);
     }
 }

@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 
 namespace CommandSite.Commands
 {
-    [CommandHelp("clear", "Clears the terminal", "")]
     public class ClearCommand : Command
     {
         public ClearCommand(Terminal terminal) : base(terminal)
         {
         }
 
-        public override string Response(params string[] parameters)
+        public override string CommandKey => "clear";
+
+        public override string HelpString => "Clears the terminal";
+
+        public override void Response(TerminalOutput output, params string[] parameters)
         {
             this.Terminal.Clear();
-            return "";
         }
     }
 }
