@@ -4,7 +4,10 @@
         <div class="prompt">@Prompt</div>
         <input class="terminal input" @onkeyup="@KeyUp" @bind="command" spellcheck="false" disabled="@disabled" autofocus="@(!disabled)" @ref="input" />
     </div>
-    <TerminalOutput @ref="output"/>
+    @foreach (ITerminalResponse response in terminalResponses)
+    {
+        response.Render();
+    }
 </div>
 @code {
     private static readonly string Prompt = @"$root # ";
@@ -21,6 +24,8 @@
     private ElementReference input;
 
     private TerminalOutput output;
+
+    private List<ITerminalResponse> terminalResponses = new List<ITerminalResponse>();
 
     private void KeyUp(KeyboardEventArgs e)
     {

@@ -15,11 +15,9 @@
         lines = new List<TerminalLine>() { new TerminalLine() { Parent = this } };
         commands = new List<Command>()
         {
-            new CatCommand(this),
-            new URLCommand("GitHub",Constants.GitHubURL,this),
-            new URLCommand("LinkedIn",Constants.LinkedInURL,this),
-            new ClearCommand(this),
-            new HelpCommand(this)
+            new CatCommand(),
+            new ClearCommand(),
+            new HelpCommand()
         };
     }
 
@@ -43,7 +41,7 @@
     {
         if(commandOptions.TryGetValue(key.ToLower(), out Command command))
         {
-            command.Response(output, parameters);
+            command.Response(this, parameters);
         }
         return "";
     }

@@ -8,15 +8,13 @@ namespace TerminalSite.Commands
 {
     public class ClearCommand : Command
     {
-        public ClearCommand(Terminal terminal) : base(terminal)
-        {
-        }
+
 
         public override string CommandKey => "clear";
 
         public override string HelpString => "Clears the terminal";
 
-        public override void Response(TerminalOutput output, params string[] parameters)
+        public override void Response(Terminal terminal, params string[] parameters)
         {
             this.Terminal.Clear();
         }

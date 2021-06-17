@@ -8,10 +8,6 @@ namespace TerminalSite.Commands
 {
     public class HelpCommand : Command
     {
-        public HelpCommand(Terminal terminal) : base(terminal) 
-        {
-        }
-
         public override string CommandKey => "help";
 
         public override string HelpString => "Use flag -v to show additional help info";
@@ -19,31 +15,31 @@ namespace TerminalSite.Commands
         protected override List<string>  SetAdditionalHelpStrings() => new List<string>() { "run help <command> to get the help for a specific command", "-v for verbose help" };
         private static int MIN_WHITESPACE = 4;
         private static int DESIRED_WHITESPACE = 10;          
-        public override void Response(TerminalOutput output, params string[] parameters)
+        public override void Response(Terminal terminal, params string[] parameters)
         {
             bool verbose = parameters.Contains("-v");
 
             StringBuilder sb = new StringBuilder();
             foreach (var item in parameters)
             {
-                if (Terminal.commandOptions.TryGetValue(item, out Command command))
+                if (Commander.commands.TryGetValue(item, out Command command))
                 {
                     CommandString(command, DESIRED_WHITESPACE,sb, verbose);
-                    output.AddLine(sb.ToString());
+                    writeLineToOutput(sb.ToString());
                     return;
                 }
             }
             
 
-            int whitespace = Math.Max(Terminal.commands.Select(x => x.CommandKey.Length).Max() + MIN_WHITESPACE, DESIRED_WHITESPACE);
+            int whitespace = Math.Max(Commander.commands.Select(x => x.Key.Length).Max() + MIN_WHITESPACE, DESIRED_WHITESPACE);
 
 
-            foreach (Command cmd in Terminal.commands)
+            foreach ((string key, Command cmd) in Commander.commands)
             {
                 CommandString(cmd,whitespace,sb,verbose);
             }
 
-            output.AddLine(sb.ToString());
+            writeLineToOutput(sb.ToString());
         }
 
         private void CommandString(Command cmd, int whitespace, StringBuilder sb, bool showAdditionalHelp = false)

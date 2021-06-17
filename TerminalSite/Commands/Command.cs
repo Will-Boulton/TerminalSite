@@ -1,11 +1,10 @@
-﻿using TerminalSite.Commands;
-using TerminalSite.Shared;
+﻿using TerminalSite.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TerminalSite
+namespace TerminalSite.Commands
 {
     public abstract class Command
     {
@@ -15,13 +14,10 @@ namespace TerminalSite
         protected virtual List<string> SetAdditionalHelpStrings() => new List<string>();
 
         public List<string> AdditionalHelpStrings;
-
-        protected Terminal Terminal;
-        protected Command(Terminal terminal)
+        protected Command()
         {
-            Terminal = terminal;
             AdditionalHelpStrings = SetAdditionalHelpStrings();
         }
-        public abstract  void Response(TerminalOutput output, params string[] parameters);
+        public abstract void Response(Terminal terminal, params string[] parameters);
     }
 }

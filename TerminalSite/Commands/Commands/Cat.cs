@@ -9,8 +9,6 @@ namespace TerminalSite.Commands
 {
     public class CatCommand : Command
     {
-        public CatCommand(Terminal terminal) : base(terminal) { }
-
         public override string HelpString => "A cute little cat";
 
         public override string CommandKey => "cat"; 

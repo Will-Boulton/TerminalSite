@@ -8,14 +8,17 @@ namespace TerminalSite.Commands
 {
     public class URLCommand : Command
     {
-        public URLCommand(string key_websiteName, string URL, Terminal terminal) : base(terminal)
+        public URLCommand(string key_websiteName, string Username, Uri URL)
         {
             _key = key_websiteName;
             _helpText = $"Displays {key_websiteName} URL";
             _URL = URL;
+            _Username = Username;
         }
 
-        private string _URL;
+        private Uri _URL;
+
+        private string _Username;
 
         private string _key;
 
@@ -25,9 +28,9 @@ namespace TerminalSite.Commands
         public override string HelpString => _helpText;
 
 
-        public override void Response(TerminalOutput output, params string[] parameters)
+        public override void Response(Terminal terminal, params string[] parameters)
         {
-            output.AddLine($"\n <a href=\"{_URL} \" target=\"_blank\">My {_key} profile</a> \n\n");
+            writeLineToOutput( $"\n <a href=\"{_URL} \" target=\"_blank\">{_Username} on {_key}.</a> \n\n");
         }
     }
 }
