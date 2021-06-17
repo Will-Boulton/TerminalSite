@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CommandSite.Shared
+namespace TerminalSite.Shared
 {
     public static class Constants
     {

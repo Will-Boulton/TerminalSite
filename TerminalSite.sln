@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandSite", "CommandSite\CommandSite.csproj", "{32979A9D-A190-4865-A35F-E24B91811F7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TerminalSite", "TerminalSite\TerminalSite.csproj", "{32979A9D-A190-4865-A35F-E24B91811F7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

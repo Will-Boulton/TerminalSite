@@ -1,11 +1,11 @@
-﻿using CommandSite.Commands;
-using CommandSite.Shared;
+﻿using TerminalSite.Commands;
+using TerminalSite.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CommandSite
+namespace TerminalSite
 {
     public abstract class Command
     {

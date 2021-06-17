@@ -1,11 +1,11 @@
-﻿using CommandSite.Shared;
+﻿using TerminalSite.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CommandSite.Commands
+namespace TerminalSite.Commands
 {
     public class CatCommand : Command
     {
