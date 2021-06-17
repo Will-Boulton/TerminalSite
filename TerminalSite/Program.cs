@@ -17,8 +17,6 @@ namespace TerminalSite
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-            Console.WriteLine(builder.Configuration.GetSection("Sites"));
-
             Commander.Init(builder.Configuration);
 
 
