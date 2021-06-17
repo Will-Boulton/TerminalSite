@@ -13,25 +13,10 @@
     flex-direction: column;
 }
 /* /Shared/Terminal.razor.rz.scp.css */
-.terminal[b-6bujomcsux]{
-
-    background: transparent;
-    outline: none;
-    font: inherit;
-    border: none;
-    color: #d08813;
-    font-family: monospace;
-    caret-color: #d08813;
-}
-
 .container[b-6bujomcsux] {
     padding: 0.3em;
 }
 /* /Shared/TerminalLine.razor.rz.scp.css */
-
-
-
-
 .prompt[b-pakxje7oqg] {
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -40,28 +25,8 @@
     color: #1375d0;
 }
 
-.terminal[b-pakxje7oqg] {
-    background: transparent;
-    outline: none;
-    font: inherit;
-    border: none;
-    color: #d08813;
-    font-family: monospace;
-    font-size: 20px;
-    caret-color: #d08813;
-}
-
 .inputline[b-pakxje7oqg] {
     display: flex;
-
-}
-
-.output[b-pakxje7oqg] {
-    white-space: pre;
-    -webkit-animation: type .5s 1s steps(20, end) forwards;
-    -moz-animation: type .5s 1s steps(20, end) forwards;
-    -o-animation: type .5s 1s steps(20, end) forwards;
-    animation: type-b-pakxje7oqg .5s 1s steps(20, end) forwards;
 }
 
 
@@ -84,27 +49,13 @@
 .input[b-pakxje7oqg] {
     flex-grow: 1;
 }
-/* /Shared/TerminalOutput.razor.rz.scp.css */
-.terminal[b-dku9xqk9yy] {
-    background: transparent;
-    outline: none;
-    font: inherit;
-    border: none;
-    color: #d08813;
-    font-family: monospace;
-    font-size: 20px;
-    caret-color: #d08813;
-}
-
-
-
-.output[b-dku9xqk9yy] {
+/* /Shared/TerminalResponses/StringLineResponse.razor.rz.scp.css */
+.output[b-7sq34utzju] {
     white-space: pre;
     -webkit-animation: type .5s 1s steps(20, end) forwards;
     -moz-animation: type .5s 1s steps(20, end) forwards;
     -o-animation: type .5s 1s steps(20, end) forwards;
     animation: type .5s 1s steps(20, end) forwards;
-    margin:0px;
 }
 /* /Shared/Window.razor.rz.scp.css */
 .window_frame[b-ciailuzo8z] {
