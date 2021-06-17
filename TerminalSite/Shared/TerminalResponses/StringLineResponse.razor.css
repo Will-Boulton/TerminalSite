@@ -1,21 +1,7 @@
-﻿.terminal {
-    background: transparent;
-    outline: none;
-    font: inherit;
-    border: none;
-    color: #d08813;
-    font-family: monospace;
-    font-size: 20px;
-    caret-color: #d08813;
-}
-
-
-
-.output {
+﻿.output {
     white-space: pre;
     -webkit-animation: type .5s 1s steps(20, end) forwards;
     -moz-animation: type .5s 1s steps(20, end) forwards;
     -o-animation: type .5s 1s steps(20, end) forwards;
     animation: type .5s 1s steps(20, end) forwards;
-    margin:0px;
 }

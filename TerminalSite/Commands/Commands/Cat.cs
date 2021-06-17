@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using TerminalSite.Shared.TerminalResponses;
 
 namespace TerminalSite.Commands
 {
@@ -13,7 +14,7 @@ namespace TerminalSite.Commands
 
         public override string CommandKey => "cat"; 
 
-        public override async void Response(TerminalOutput output, params string[] parameters)
+        public override async void Execute(Terminal terminal, TerminalOutput output, params string[] parameters)
         {
             var cat =
 @"
@@ -24,7 +25,7 @@ namespace TerminalSite.Commands
                                     ";
             foreach (var line in cat.Split(Environment.NewLine))
             {
-                output.AddLine(line);
+                output.AddResponse(new StringLineResponse(line));
                 await Task.Delay(25);
             }
         }

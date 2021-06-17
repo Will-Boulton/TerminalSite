@@ -18,6 +18,6 @@ namespace TerminalSite.Commands
         {
             AdditionalHelpStrings = SetAdditionalHelpStrings();
         }
-        public abstract void Response(Terminal terminal, params string[] parameters);
+        public abstract void Execute(Terminal terminal, TerminalOutput output, params string[] parameters);
     }
 }

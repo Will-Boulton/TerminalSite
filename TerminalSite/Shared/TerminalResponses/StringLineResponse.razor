@@ -1,0 +1,15 @@
+﻿@implements ITerminalResponse
+@code {
+    [Parameter]
+    public string line { get; set; }
+
+    public StringLineResponse(string line)
+    {
+        this.line = line;
+    }
+
+    public RenderFragment Render() => __builder =>
+    {
+        <div class="terminal output">@line</div>
+    };
+}

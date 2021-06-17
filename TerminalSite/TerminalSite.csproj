@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Shared\TerminalResponses\TerminalOutput.razor.css" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\FocusAssist.js" />
   </ItemGroup>
 

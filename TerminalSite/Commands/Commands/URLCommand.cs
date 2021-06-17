@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TerminalSite.Shared.TerminalResponses;
 
 namespace TerminalSite.Commands
 {
@@ -28,9 +29,9 @@ namespace TerminalSite.Commands
         public override string HelpString => _helpText;
 
 
-        public override void Response(Terminal terminal, params string[] parameters)
+        public override void Execute(Terminal terminal, TerminalOutput output, params string[] parameters)
         {
-            writeLineToOutput( $"\n <a href=\"{_URL} \" target=\"_blank\">{_Username} on {_key}.</a> \n\n");
+            output.AddResponse(new StringLineResponse( $"\n <a href=\"{_URL} \" target=\"_blank\">{_Username} on {_key}.</a> \n\n"));
         }
     }
 }

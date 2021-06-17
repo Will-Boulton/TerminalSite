@@ -1,14 +1,16 @@
-﻿@foreach (var line in lines)
+﻿@using TerminalSite.Shared.TerminalResponses;
+
+@foreach (ITerminalResponse response in responses)
 {
-    <p class="terminal output" >@((MarkupString)line)</p>
+    @response.Render();
 }
 
 @code {
-    public List<string> lines  = new List<string>();
+    public List<ITerminalResponse> responses = new List<ITerminalResponse>();
 
-    public void AddLine(string line)
+    public void AddResponse(ITerminalResponse response)
     {
-        lines.Add(line);
+        responses.Add(response);
         StateHasChanged();
     }
 }

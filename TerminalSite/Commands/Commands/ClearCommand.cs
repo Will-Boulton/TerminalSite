@@ -14,9 +14,9 @@ namespace TerminalSite.Commands
 
         public override string HelpString => "Clears the terminal";
 
-        public override void Response(Terminal terminal, params string[] parameters)
+        public override void Execute(Terminal terminal, TerminalOutput output, params string[] parameters)
         {
-            this.Terminal.Clear();
+            terminal.Clear();
         }
     }
 }

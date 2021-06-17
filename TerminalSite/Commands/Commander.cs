@@ -8,9 +8,13 @@ namespace TerminalSite.Commands
 {
     public static class Commander
     {
-        public static void Init(IConfigurationSection websiteConfig)
+        public static void Init(IConfiguration websiteConfig)
         {
             InitSitecommands(websiteConfig.GetSection("Sites"));
+
+            AddCommand(new CatCommand());
+            AddCommand(new ClearCommand());
+            AddCommand(new HelpCommand());
         }
 
         /// <summary>
@@ -25,8 +29,13 @@ namespace TerminalSite.Commands
 
                 string website = siteConfigItem["Website"];
 
-                commands[website] = new URLCommand(website, username, new Uri(siteConfigItem["URL"]));
+                AddCommand(new URLCommand(website, username, new Uri(siteConfigItem["URL"])));
             }
+        }
+
+        private static void AddCommand(Command c)
+        {
+            commands[c.CommandKey.ToLower()] = c;
         }
 
 
