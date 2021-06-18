@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using TerminalSite.Commands;
+using TerminalSite.Configuration;
 
 namespace TerminalSite
 {
@@ -16,6 +17,8 @@ namespace TerminalSite
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+            SiteConfig.config = builder.Configuration;
 
             Commander.Init(builder.Configuration);
 

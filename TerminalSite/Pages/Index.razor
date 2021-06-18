@@ -1,5 +1,6 @@
 ﻿@page "/"
-
+@inject IJSRuntime JSRuntime
+@using TerminalSite.Configuration;
 
 <div class="page">
     <Window Title="Will Boulton">
@@ -8,5 +9,8 @@
 </div>
 
 @code{
-
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeVoidAsync("setTitle", SiteConfig.config["SiteName"]); ;
+    }
 }
