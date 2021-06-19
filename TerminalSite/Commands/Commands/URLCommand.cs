@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TerminalSite.Shared.TerminalResponses;
 
 namespace TerminalSite.Commands
 {
@@ -13,13 +12,11 @@ namespace TerminalSite.Commands
         {
             _key = key_websiteName;
             _helpText = $"Displays {key_websiteName} URL";
-            _URL = URL;
-            _Username = Username;
+
+            url = new AnnotatedURL($"\n\t{Username} on {_key}\n", URL);
         }
 
-        private Uri _URL;
-
-        private string _Username;
+        AnnotatedURL url;
 
         private string _key;
 
@@ -29,9 +26,10 @@ namespace TerminalSite.Commands
         public override string HelpString => _helpText;
 
 
-        public override void Execute(Terminal terminal, TerminalOutput output, params string[] parameters)
+        public override void Execute(Terminal terminal, CommandResponseBlock output, params string[] parameters)
         {
-            output.AddResponse(new StringLineResponse( $"\n <a href=\"{_URL} \" target=\"_blank\">{_Username} on {_key}.</a> \n\n"));
+
+            output.AddResponse(new CommandResponse(url));
         }
     }
 }

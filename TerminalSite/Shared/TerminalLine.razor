@@ -1,10 +1,10 @@
 ﻿@inject IJSRuntime jsRuntime
-<div class="terminal">
+<div>
     <div class="inputline">
         <div class="prompt">@Prompt</div>
         <input class="terminal input" @onkeyup="@KeyUp" @bind="command" spellcheck="false" disabled="@disabled" autofocus="@(!disabled)" @ref="input" />
     </div>
-    <TerminalOutput @ref="output"/>
+    <CommandResponseBlock terminal="Parent" @ref="output"/>
 </div>
 @code {
     private static readonly string Prompt = @"$root # ";
@@ -20,57 +20,45 @@
 
     private ElementReference input;
 
-    private TerminalOutput output;
+    private CommandResponseBlock output;
+
+    public void AddResponse(CommandResponse r)
+    {
+        output.AddResponse(r);
+    }
 
     private void KeyUp(KeyboardEventArgs e)
     {
         if (e.Code == "Enter" || e.Code == "NumpadEnter")
         {
             disabled = true;
-            Sumbit(command);
+            RunCommand(command);
+            Parent.AddNew();
+
         }
 
         if (e.Code == "ArrowUp")
         {
-            commandIndex = Math.Max(commandIndex - 1,0);
-            if (Parent.PreviousCommands.Count > 0)
-                command = Parent.PreviousCommands[Parent.PreviousCommands.Count - commandIndex];
-            else
-            {
-                command = string.Empty;
-            }
-            StateHasChanged();
+            command = Parent.commandStore.NextCommand();
         }
         else if (e.Code == "ArrowDown")
         {
-            commandIndex = Math.Min(commandIndex + 1, Parent.PreviousCommands.Count - 1);
-            if (Parent.PreviousCommands.Count > 0)
-                command = Parent.PreviousCommands[Parent.PreviousCommands.Count - commandIndex];
-            else
-            {
-                command = string.Empty;
-            }
-            StateHasChanged();
+            command = Parent.commandStore.PreviousCommand();
+
         }
+        StateHasChanged();
     }
 
-    private int commandIndex = 0;
 
-    private void Sumbit(string value)
+    public void RunCommand(string input_command)
     {
-        string[] split = value.Split(null);
+        string[] parameters = input_command.Split(null);
 
-        if(split.Length > 0)
+        var commands = Commander.commands;
+        if (Commander.commands.TryGetValue(parameters[0], out Command command))
         {
-            string keyCommand = split[0].ToLower();
-
-            Parent.RunCommand(keyCommand, output,split.Skip(1).ToArray());
+            command.Execute(Parent, output, parameters.Skip(1).ToArray());
         }
-
-        if(!string.IsNullOrEmpty(value))
-            Parent.PreviousCommands.Add(value);
-        commandIndex = Parent.PreviousCommands.Count - 1;
-        Parent.AddNew();
     }
 
     protected async override Task OnAfterRenderAsync(bool firstRender)

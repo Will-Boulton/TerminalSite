@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TerminalSite.Shared.TerminalResponses;
+
 
 namespace TerminalSite.Commands
 {
@@ -16,7 +16,7 @@ namespace TerminalSite.Commands
         protected override List<string>  SetAdditionalHelpStrings() => new List<string>() { "run help <command> to get the help for a specific command", "-v for verbose help" };
         private static int MIN_WHITESPACE = 4;
         private static int DESIRED_WHITESPACE = 10;          
-        public override void Execute(Terminal terminal, TerminalOutput output, params string[] parameters)
+        public override void Execute(Terminal terminal, CommandResponseBlock output, params string[] parameters)
         {
             bool verbose = parameters.Contains("-v");
 
@@ -27,7 +27,7 @@ namespace TerminalSite.Commands
                 {
                     CommandString(command, DESIRED_WHITESPACE,sb, verbose);
 
-                    output.AddResponse(new StringLineResponse(sb.ToString()));
+                    output.AddResponse(new CommandResponse(sb.ToString()));
                     return;
                 }
             }
@@ -41,7 +41,7 @@ namespace TerminalSite.Commands
                 CommandString(cmd,whitespace,sb,verbose);
             }
 
-            output.AddResponse(new StringLineResponse(sb.ToString()));
+            output.AddResponse(new CommandResponse(sb.ToString()));
         }
 
         private void CommandString(Command cmd, int whitespace, StringBuilder sb, bool showAdditionalHelp = false)

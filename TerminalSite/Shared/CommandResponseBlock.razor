@@ -1,0 +1,25 @@
+﻿@foreach (CommandResponse response in responses)
+{
+    @if (response.AsMarkup)
+    {
+        <div class="terminal output">@((MarkupString)response.Response)</div>
+    }
+    else
+    {
+        <div class="terminal output">@response.Response</div>
+    }
+}
+
+@code {
+
+    [Parameter] public Terminal terminal { get; set; }
+
+    public List<CommandResponse> responses = new List<CommandResponse>();
+
+    public void AddResponse(CommandResponse response)
+    {
+        responses.Add(response);
+        StateHasChanged();
+        terminal.scrollToBotton();
+    }
+}

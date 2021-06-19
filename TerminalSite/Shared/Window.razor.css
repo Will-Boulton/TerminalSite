@@ -30,5 +30,6 @@
 
 .window_content{
     flex-grow:1;
-    overflow-y:scroll;
+    display:flex;
+    overflow:hidden;
 }
