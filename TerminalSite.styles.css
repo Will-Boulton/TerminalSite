@@ -1,11 +1,4 @@
 /* /Pages/Index.razor.rz.scp.css */
-.page[b-telxiut485] {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-}
 /* /Shared/MainLayout.razor.rz.scp.css */
 .page[b-ytkmj73484] {
     position: relative;
@@ -15,6 +8,10 @@
 /* /Shared/Terminal.razor.rz.scp.css */
 .container[b-6bujomcsux] {
     padding: 0.3em;
+    display:flex;
+    flex-direction:column;
+    overflow-y:scroll;
+    width:100%;
 }
 /* /Shared/TerminalLine.razor.rz.scp.css */
 .prompt[b-pakxje7oqg] {
@@ -49,14 +46,6 @@
 .input[b-pakxje7oqg] {
     flex-grow: 1;
 }
-/* /Shared/TerminalResponses/StringLineResponse.razor.rz.scp.css */
-.output[b-7sq34utzju] {
-    white-space: pre;
-    -webkit-animation: type .5s 1s steps(20, end) forwards;
-    -moz-animation: type .5s 1s steps(20, end) forwards;
-    -o-animation: type .5s 1s steps(20, end) forwards;
-    animation: type .5s 1s steps(20, end) forwards;
-}
 /* /Shared/Window.razor.rz.scp.css */
 .window_frame[b-ciailuzo8z] {
     box-shadow: 5px 5px 24px 1px rgba(0,0,0,0.67);
@@ -90,5 +79,6 @@
 
 .window_content[b-ciailuzo8z]{
     flex-grow:1;
-    overflow-y:scroll;
+    display:flex;
+    overflow:hidden;
 }
