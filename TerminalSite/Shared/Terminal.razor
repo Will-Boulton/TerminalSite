@@ -2,44 +2,78 @@
 @inject IJSRuntime JS
 
 <link href="css/Terminal.css" rel="stylesheet" />
-<div class="terminal container" @ref="scroll">
-        @foreach (var item in lines)
-        {
-            <TerminalLine Parent="this" @key="item.Key" />
-        }
+<div class="terminal container" @ref="scroll" @onclick="Focus">
+    @for (int i = 0; i < lines.Count; i++)
+    {
+        TerminalInputModel item = lines[i];
+        <CascadingValue Value="this">
+            <Input Model="item" @key="item.Key" />
+        </CascadingValue>
+    }
 </div>
 @code {
-    private List<TerminalLine> lines;
+
+    [Parameter] public PromptContext prompt { get; set ;}
+
+    private List<Input> Inputs;
+
+    private List<TerminalInputModel> lines;
 
     public CommandStore commandStore;
 
     protected override void OnInitialized()
     {
         commandStore = new CommandStore();
-        lines = new List<TerminalLine>() { new TerminalLine() { Parent = this } };
+        Inputs = new List<Input>();
+        lines = new List<TerminalInputModel>();
+
+        lines.Add(new TerminalInputModel() { Prompt = prompt,Disabled = true, Placeholder = "Welcome! Enter a command to do something." });
+        lines.Add(new TerminalInputModel() { Prompt = prompt, Disabled = true, Placeholder = "" });
+        lines.Add(new TerminalInputModel() { Prompt = prompt, Disabled = true, Placeholder = "If you're stuck try 'help'." });
+        lines.Add(new TerminalInputModel() { Prompt = prompt });
     }
 
     ElementReference scroll;
 
     public void AddNew()
     {
-        lines.Add(new TerminalLine() { Parent = this });
+        lines.Add(new TerminalInputModel() { Prompt = prompt });
         StateHasChanged();
     }
+
+    public void RegisterInput( Input newInput ){ Inputs.Add(newInput); StateHasChanged(); }
+
+    public void DisposeInput( Input input){ Inputs.Remove(input); StateHasChanged(); }
 
     public void Clear()
     {
-        lines = new List<TerminalLine>();
-        StateHasChanged();
+        Inputs = new List<Input>();
+        lines = new List<TerminalInputModel>();
     }
 
-    public void scrollToBotton()
+    public async void scrollToBotton()
     {
-        JS.InvokeVoidAsync("ScrollToBottom", scroll);
+        await JS.InvokeVoidAsync("ScrollToBottom", scroll);
     }
 
-    protected async override void OnAfterRender(bool firstRender)
+    protected override void OnAfterRender(bool firstRender)
     {
         scrollToBotton();
+        Focus();
+    }
+
+    public async void Focus()
+    {
+        if(lines.Count > 0)
+            await JS.InvokeVoidAsync("SetFocusToElement", Inputs[lines.Count -1].inputRef);
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        foreach (TerminalInputModel input in lines.SkipLast(1))
+        {
+            input.Disabled = true;
+        }
+        Focus();
     }
 }

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TerminalSite.Commands;
 using TerminalSite.Configuration;
+using TerminalSite.Models;
 
 namespace TerminalSite
 {
@@ -21,7 +22,7 @@ namespace TerminalSite
             SiteConfig.config = builder.Configuration;
 
             Commander.Init(builder.Configuration);
-
+            FileSystem.Init();
 
             builder.RootComponents.Add<App>("#app");
 

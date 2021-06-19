@@ -1,0 +1,32 @@
+﻿.prompt {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    white-space: pre;
+    color: #1375d0;
+}
+
+.inputline {
+    display: flex;
+}
+
+
+@keyframes type {
+    0% {
+        bottom: -0.2em;
+        opacity: 1;
+    }
+
+    50% {
+        bottom: 0.2em;
+    }
+
+    100% {
+        bottom: 0;
+        opacity: 1;
+    }
+}
+
+.input {
+    flex-grow: 1;
+}

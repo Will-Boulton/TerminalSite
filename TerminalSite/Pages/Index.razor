@@ -3,10 +3,12 @@
 @using TerminalSite.Configuration;
 
 
-    <Terminal />
+    <Terminal prompt="@m"/>
 
 
 @code{
+    private PromptContext m = new PromptContext(){ Separator = "^", CurrentDirectory = FileSystem.root, User = "admin"};
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await JSRuntime.InvokeVoidAsync("setTitle", SiteConfig.config["SiteName"]); ;

@@ -1,0 +1,70 @@
+﻿@inject IJSRuntime jsRuntime
+@implements IDisposable
+<div class="inputline">
+    <div class="prompt">@Model.Prompt.PromptString</div>
+    <input 
+           class="terminal input" 
+           placeholder="@Model.Placeholder"
+           spellcheck="false" 
+           disabled="@Model.Disabled" 
+           autofocus
+           @ref="inputRef" 
+           @onkeyup="@KeyUp" 
+           @bind="Model.Value" 
+    />
+</div>
+<CommandResponseBlock terminal="Terminal" @ref="output" />
+@code {
+    [CascadingParameter] public Terminal Terminal { get; set; }
+
+    [Parameter] public TerminalInputModel Model { get; set; }
+
+
+    private CommandResponseBlock output;
+
+    public ElementReference inputRef;
+
+    private void KeyUp(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            Model.Disabled = true;
+            RunCommand(Model.Value);
+            Terminal.AddNew();
+        }
+
+        if (e.Code == "ArrowUp")
+        {
+            Model.Value = Terminal.commandStore.NextCommand();
+        }
+        else if (e.Code == "ArrowDown")
+        {
+            Model.Value = Terminal.commandStore.PreviousCommand();
+
+        }
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        Terminal.DisposeInput(this);
+    }
+
+    protected override void OnInitialized()
+    {
+        Terminal.RegisterInput(this);
+    }
+
+    public void RunCommand(string input_command)
+    {
+        string[] parameters = input_command.Split(null);
+
+        var commands = Commander.commands;
+        if (Commander.commands.TryGetValue(parameters[0].ToLower(), out Command command))
+        {
+            command.Execute(Terminal, output, parameters.Skip(1).ToArray());
+        }
+    }
+
+
+}
