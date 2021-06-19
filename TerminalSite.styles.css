@@ -1,4 +1,37 @@
 /* /Pages/Index.razor.rz.scp.css */
+/* /Shared/Input.razor.rz.scp.css */
+.prompt[b-55ugd8rzcj] {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    white-space: pre;
+    color: #1375d0;
+}
+
+.inputline[b-55ugd8rzcj] {
+    display: flex;
+}
+
+
+@keyframes type-b-55ugd8rzcj {
+    0% {
+        bottom: -0.2em;
+        opacity: 1;
+    }
+
+    50% {
+        bottom: 0.2em;
+    }
+
+    100% {
+        bottom: 0;
+        opacity: 1;
+    }
+}
+
+.input[b-55ugd8rzcj] {
+    flex-grow: 1;
+}
 /* /Shared/MainLayout.razor.rz.scp.css */
 .page[b-ytkmj73484] {
     position: relative;
