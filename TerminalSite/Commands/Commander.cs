@@ -15,6 +15,7 @@ namespace TerminalSite.Commands
             AddCommand(new CatCommand());
             AddCommand(new ClearCommand());
             AddCommand(new HelpCommand());
+            AddCommand(new LS());
         }
 
         /// <summary>
