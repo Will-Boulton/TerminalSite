@@ -1,7 +1,7 @@
 ﻿@inject IJSRuntime jsRuntime
 @implements IDisposable
 <div class="inputline">
-    <div class="prompt">@Model.Prompt.PromptString</div>
+    <div class="prompt">@PromptString</div>
     <input 
            class="terminal input" 
            placeholder="@Model.Placeholder"
@@ -19,6 +19,7 @@
 
     [Parameter] public TerminalInputModel Model { get; set; }
 
+    private string PromptString;
 
     private CommandResponseBlock output;
 
@@ -52,6 +53,7 @@
 
     protected override void OnInitialized()
     {
+        PromptString = Terminal.prompt.PromptString;
         Terminal.RegisterInput(this);
     }
 
