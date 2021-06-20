@@ -57,14 +57,15 @@
 
     public void RunCommand(string input_command)
     {
-        string[] parameters = input_command.Split(null);
-
-        var commands = Commander.commands;
-        if (Commander.commands.TryGetValue(parameters[0].ToLower(), out Command command))
+        if(!string.IsNullOrEmpty(input_command))
         {
-            command.Execute(Terminal, output, parameters.Skip(1).ToArray());
+            string[] parameters = input_command.Split(null);
+
+            var commands = Commander.commands;
+            if (Commander.commands.TryGetValue(parameters[0].ToLower(), out Command command))
+            {
+                command.Execute(Terminal, output, parameters.Skip(1).ToArray());
+            }
         }
     }
-
-
 }
