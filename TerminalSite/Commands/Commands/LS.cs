@@ -40,7 +40,7 @@ namespace TerminalSite.Commands
 
         private void ExecuteVerbose(CommandResponseBlock output, Directory current)
         {
-            string[] resp = current.ToString().Split("\n");
+            string[] resp = current.ls(0).Split("\n");
 
             foreach (string item in resp)
             {

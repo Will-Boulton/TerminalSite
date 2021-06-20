@@ -9,6 +9,8 @@ namespace TerminalSite.Models
     {
         string Name { get; set; }
         Directory Parent { get; set; }
+
+        string ls(int depth);
     }
 
     public class Directory : IFileSystemObject
@@ -28,28 +30,17 @@ namespace TerminalSite.Models
             d.Parent = this;
         }
 
-        public override string ToString()
+        private string Indent(int depth) => new string(' ', depth * 2);
+
+        public string ls(int depth)
         {
             StringBuilder sb = new StringBuilder();
+            sb.Append(Indent(depth)).Append("dir: ").Append(Name).AppendLine();
 
-            sb.Append(Name);
-            sb.AppendLine();
             for (int i = 0; i < Children.Count; i++)
             {
                 IFileSystemObject child = Children[i];
-                sb.Append("+");
-
-                string row = i + 1 % Children.Count == 0 ? " " : "|";
-
-                string[] childString = child.ToString().Split(Environment.NewLine);
-
-                for (int j = 0; j < childString.Length; j++)
-                {
-                    sb.Append(j == 0 ? $"{childString[j]}" : $"{row}  |----{childString[j]}");
-
-                    if(j != childString.Length -1)
-                        sb.AppendLine();
-                }
+                sb.Append(Indent(depth + 1)).Append(child.ls(depth+1));
             }
             sb.AppendLine();
             return sb.ToString();
@@ -66,7 +57,7 @@ namespace TerminalSite.Models
             Name = name + "." + fileExtension;
         }
 
-        public override string ToString() => Name;
+        public string ls(int depth) => new string(' ',depth * 2) +  Name;
     }
 }
 
