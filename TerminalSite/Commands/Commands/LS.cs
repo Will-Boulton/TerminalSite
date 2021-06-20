@@ -7,6 +7,9 @@ using TerminalSite.Shared;
 
 namespace TerminalSite.Commands
 {
+    /// <summary>
+    /// A command to list the contents of a directory
+    /// </summary>
     public class LS : Command
     {
         public override string CommandKey => "ls";

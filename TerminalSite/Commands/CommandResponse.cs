@@ -1,6 +1,9 @@
 ﻿using System;
 namespace TerminalSite.Commands
 {
+    /// <summary>
+    /// Response to write to a new line in the commandline
+    /// </summary>
     public class CommandResponse
     {
         public string Response { get; set;  }
@@ -18,7 +21,9 @@ namespace TerminalSite.Commands
         }
     }
 
-
+    /// <summary>
+    /// URL with annotation
+    /// </summary>
     public class AnnotatedURL
     {
         public AnnotatedURL(string annotation, Uri URL)

@@ -6,17 +6,24 @@ using System.Threading.Tasks;
 
 namespace TerminalSite.Commands
 {
+    /// <summary>
+    /// Store for commands which can be used by the terminal
+    /// </summary>
     public static class Commander
     {
+        /// <summary>
+        /// Initialises commands avaliable, custom URL commands can be added from wwwroot/appsettings.json
+        /// </summary>
+        /// <param name="websiteConfig"></param>
         public static void Init(IConfiguration websiteConfig)
         {
-            InitSitecommands(websiteConfig.GetSection("Sites"));
-
             AddCommand(new CatCommand());
             AddCommand(new ClearCommand());
             AddCommand(new HelpCommand());
             AddCommand(new LS());
             AddCommand(new CD());
+            InitSitecommands(websiteConfig.GetSection("Sites"));
+
         }
 
         /// <summary>
@@ -35,12 +42,18 @@ namespace TerminalSite.Commands
             }
         }
 
-        private static void AddCommand(Command c)
+        /// <summary>
+        /// Adds another command to the avaliable commands
+        /// </summary>
+        /// <param name="c"></param>
+        public static void AddCommand(Command c)
         {
             commands[c.CommandKey.ToLower()] = c;
         }
 
-
+        /// <summary>
+        /// Dictionary mapping command keys to commands
+        /// </summary>
         public static Dictionary<string, Command> commands = new Dictionary<string, Command>();
     }
 }

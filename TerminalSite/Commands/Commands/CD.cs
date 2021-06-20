@@ -7,6 +7,9 @@ using TerminalSite.Shared;
 
 namespace TerminalSite.Commands
 {
+    /// <summary>
+    /// Command to change the current directory of the terminal
+    /// </summary>
     public class CD : Command
     {
         public override string CommandKey => "cd";

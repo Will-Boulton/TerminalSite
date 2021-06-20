@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TerminalSite.Commands
 {
+    /// <summary>
+    /// Command to clear the terminal
+    /// </summary>
     public class ClearCommand : Command
     {
 

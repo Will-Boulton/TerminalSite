@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TerminalSite.Commands
 {
+    /// <summary>
+    /// A command which returns an annotated URL
+    /// </summary>
     public class URLCommand : Command
     {
         public URLCommand(string key_websiteName, string Username, Uri URL)

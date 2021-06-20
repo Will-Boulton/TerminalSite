@@ -7,6 +7,9 @@ using System.Text;
 
 namespace TerminalSite.Commands
 {
+    /// <summary>
+    /// Command to display help for avaliable commands
+    /// </summary>
     public class HelpCommand : Command
     {
         public override string CommandKey => "help";
