@@ -79,6 +79,11 @@
 .input[b-pakxje7oqg] {
     flex-grow: 1;
 }
+/* /Shared/TitleBarButton.razor.rz.scp.css */
+.icon[b-oli4q7ei10]{
+    margin-left:6px;
+    cursor:pointer;
+}
 /* /Shared/Window.razor.rz.scp.css */
 .window_frame[b-ciailuzo8z] {
     box-shadow: 5px 5px 24px 1px rgba(0,0,0,0.67);
