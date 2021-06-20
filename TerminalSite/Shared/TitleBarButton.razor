@@ -1,0 +1,16 @@
+﻿@inject IJSRuntime JS
+
+<i class="fab fa-@(ButtonIconClass.ToLower()) icon" @onclick="@OpenLinkInNewTab"></i>
+
+@code {
+    [Parameter] public string ButtonIconClass { get; set; }
+
+    [Parameter] public string Link { get; set; }
+
+
+    public async Task OpenLinkInNewTab()
+    {
+        string url = "/counter";
+        await JS.InvokeAsync<object>("open", Link, "_blank");
+    }
+}

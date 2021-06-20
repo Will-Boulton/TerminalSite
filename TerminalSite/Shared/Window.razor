@@ -1,6 +1,16 @@
 ﻿<div class="window_frame">
-    <div class="title_bar"><div>@Title</div><div class="button_div"><i class="fab fa-github"></i></div></div>
-    <div class="window_content">@ChildContent</div>
+    <div class="title_bar">
+        <div>@Title</div>
+        <div class="button_div">
+            @foreach (TitleButtonData item in TitleButtons)
+	        {
+		        <TitleBarButton ButtonIconClass="@item.Website" Link="@item.URL"/>
+	        }
+        </div>
+    </div>
+    <div class="window_content">
+        @ChildContent
+    </div>
 </div>
 
 @code {
@@ -8,4 +18,28 @@
     public string Title { get;set;}
     [Parameter]
     public RenderFragment ChildContent { get;set;}
+
+    private List<TitleButtonData> TitleButtons;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        MakeTitleButtons();
+    }
+
+
+    private void MakeTitleButtons()
+    {
+        TitleButtons = new List<TitleButtonData>();
+
+        var sites = SiteConfig.config.GetSection("Sites");
+        foreach (var siteConfigItem in sites.GetChildren())
+        {
+            string url = siteConfigItem["URL"];
+
+            string website = siteConfigItem["Website"];
+
+            TitleButtons.Add(new TitleButtonData(website,url));
+        }
+    }
 }
