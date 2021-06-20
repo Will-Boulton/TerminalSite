@@ -31,6 +31,7 @@
         {
             Model.Disabled = true;
             RunCommand(Model.Value);
+            Terminal.commandStore.StoreCommand(Model.Value);
             Terminal.AddNew();
         }
 
