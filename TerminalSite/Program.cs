@@ -22,7 +22,7 @@ namespace TerminalSite
             SiteConfig.config = builder.Configuration;
 
             Commander.Init(builder.Configuration);
-            FileSystem.Init();
+            FileSystem.Init(builder.Configuration.GetSection("filesystem"));
 
             builder.RootComponents.Add<App>("#app");
 

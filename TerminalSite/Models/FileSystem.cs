@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,23 +10,34 @@ namespace TerminalSite.Models
     {
         public static Directory root;
 
-        public static void Init()
+        public static void Init(IConfigurationSection fileSystem)
         {
-            root = new Directory("root");
-            Directory sub1 = new Directory("SecretFiles");
-            sub1.AddChild(new File("Passwords","txt"){ contents = "Nice try :p"});
-            root.AddChild(sub1);
-            root.AddChild(new File("About","txt") 
-                { 
-                    contents = 
-@"Hi!
+            root = ParseDirectory(fileSystem);
+        }
 
-I am Will Boulton, a full-stack Software Engineer working in London.
+        private static Directory ParseDirectory(IConfigurationSection section)
+        {
+            string DirectoryName = section["name"];
 
-This site is developed in .Net Blazor using Web Assembly, 
-Kinda cool!
-"
-                });
+            IConfigurationSection filessection = section.GetSection("files");
+            
+
+            IEnumerable<IFileSystemObject> files = filessection.Exists() ? filessection.GetChildren().Select(file =>  ParseFile(file)) : new List<IFileSystemObject>();
+
+            IConfigurationSection directoriessection = section.GetSection("child-dirs");
+
+            IEnumerable<IFileSystemObject> directories = directoriessection.Exists() ?  directoriessection.GetChildren().Select(file => ParseDirectory(file)) : new List<IFileSystemObject>();
+
+            return new Directory(DirectoryName) { Children = directories.Union(files).ToList() };
+        }
+
+        private static File ParseFile(IConfigurationSection section)
+        {
+            string filename = section["name"];
+            string extension = section["extension"];
+            string contents = string.Join('\n',section.GetSection("contents").GetChildren().Select(x => x.Value));
+
+            return new File(filename, extension) { contents = contents};
         }
     }
 }
