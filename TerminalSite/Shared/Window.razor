@@ -23,6 +23,9 @@
     [Parameter]
     public RenderFragment ChildContent { get;set;}
 
+    [Parameter] 
+    public int WindowDragPadding { get;set;} = 5;
+
     private List<TitleButtonData> TitleButtons;
 
     private ElementReference windowRef;
@@ -78,8 +81,8 @@
         var result = await JS.InvokeAsync<BoundingClientRect>("getBoundingClientRect", new object[]{ windowRef });
 
 
-        offsetX = Math.Min(Math.Max( offsetX  + (args.ClientX - startX), 0), windowDims.Width - result.Width);
-        offsetY = Math.Min(Math.Max( offsetY  + (args.ClientY - startY), 0), windowDims.Height - result.Height);
+        offsetX = Math.Min(Math.Max( offsetX  + (args.ClientX - startX), WindowDragPadding), windowDims.Width - result.Width - WindowDragPadding);
+        offsetY = Math.Min(Math.Max( offsetY  + (args.ClientY - startY), WindowDragPadding), windowDims.Height - result.Height - WindowDragPadding);
         StateHasChanged();
     }
 

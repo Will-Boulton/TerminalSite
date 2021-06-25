@@ -3,6 +3,7 @@ html, body {
     font-family: Jetbrains-Mono;
     height: 100%;
     min-height: 100%;
+    margin : 0px;
     background: #2D2D2D;
     background-image: radial-gradient(#d08813 5%, transparent 0);
     background-size: 30px 30px;
