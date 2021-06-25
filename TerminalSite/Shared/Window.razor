@@ -1,7 +1,7 @@
 ﻿@inject IJSRuntime JS
 
-<div class="window_frame"
-     style="position:absolute; top: @(offsetY)px; left: @(offsetX)px;" draggable="true" @ref="@windowRef">
+<div class="window_frame" 
+     style="position:absolute; top: @(offsetY)px; left: @(offsetX)px; "  @ref="@windowRef">
     <div class="title_bar" draggable="true" 
          @ondragend="OnDragEnd" @ondragstart="OnDragStart">
         <div>@Title</div>
@@ -23,7 +23,7 @@
     [Parameter]
     public RenderFragment ChildContent { get;set;}
 
-    [Parameter] 
+    [Parameter]
     public int WindowDragPadding { get;set;} = 5;
 
     private List<TitleButtonData> TitleButtons;
@@ -68,7 +68,6 @@
 
 
     private double startX, startY, offsetX, offsetY;
-
     private void OnDragStart(DragEventArgs args)
     {
         startX = args.ClientX;
