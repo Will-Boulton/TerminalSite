@@ -43,7 +43,7 @@
     padding: 0.3em;
     display:flex;
     flex-direction:column;
-    overflow-y:scroll;
+    overflow-y:auto;
     width:100%;
 }
 /* /Shared/TerminalLine.razor.rz.scp.css */
