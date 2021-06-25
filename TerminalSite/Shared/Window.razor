@@ -1,11 +1,15 @@
-﻿<div class="window_frame">
-    <div class="title_bar">
+﻿@inject IJSRuntime JS
+
+<div class="window_frame"
+     style="position:absolute; top: @(offsetY)px; left: @(offsetX)px;" draggable="true" @ref="@windowRef">
+    <div class="title_bar" draggable="true" 
+         @ondragend="OnDragEnd" @ondragstart="OnDragStart">
         <div>@Title</div>
         <div class="button_div">
             @foreach (TitleButtonData item in TitleButtons)
-	        {
-		        <TitleBarButton ButtonIconClass="@item.Website" Link="@item.URL"/>
-	        }
+            {
+                <TitleBarButton ButtonIconClass="@item.Website" Link="@item.URL" />
+            }
         </div>
     </div>
     <div class="window_content">
@@ -21,12 +25,28 @@
 
     private List<TitleButtonData> TitleButtons;
 
+    private ElementReference windowRef;
+    private bool ReadyToShow = false;
     protected override void OnInitialized()
     {
+        Task.Run(() => SetInitialPos());
         base.OnInitialized();
         MakeTitleButtons();
     }
 
+    /// <summary>
+    /// Sets the inital position of the window inside the desktop
+    /// </summary>
+    /// <returns></returns>
+    private async Task SetInitialPos()
+    {
+        var windowDims = await JS.InvokeAsync<WindowDimension>("getWindowDimensions");
+        var result = await JS.InvokeAsync<BoundingClientRect>("getBoundingClientRect", new object[] { windowRef });
+        offsetX = (windowDims.Width - result.Width) / 2;
+        offsetY = (windowDims.Height - result.Height) / 2;
+        ReadyToShow = true;
+        StateHasChanged();
+    }
 
     private void MakeTitleButtons()
     {
@@ -41,5 +61,43 @@
 
             TitleButtons.Add(new TitleButtonData(website,url));
         }
+    }
+
+
+    private double startX, startY, offsetX, offsetY;
+
+    private void OnDragStart(DragEventArgs args)
+    {
+        startX = args.ClientX;
+        startY = args.ClientY;
+    }
+
+    private async void OnDragEnd(DragEventArgs args)
+    {
+        var windowDims = await JS.InvokeAsync<WindowDimension>("getWindowDimensions");
+        var result = await JS.InvokeAsync<BoundingClientRect>("getBoundingClientRect", new object[]{ windowRef });
+
+
+        offsetX = Math.Min(Math.Max( offsetX  + (args.ClientX - startX), 0), windowDims.Width - result.Width);
+        offsetY = Math.Min(Math.Max( offsetY  + (args.ClientY - startY), 0), windowDims.Height - result.Height);
+        StateHasChanged();
+    }
+
+    public class WindowDimension
+    {
+        public int Width { get; set; }
+        public int Height { get; set; }
+    }
+
+    public class BoundingClientRect
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Width { get; set; }
+        public double Height { get; set; }
+        public double Top { get; set; }
+        public double Right { get; set; }
+        public double Bottom { get; set; }
+        public double Left { get; set; }
     }
 }
