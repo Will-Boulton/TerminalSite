@@ -3,7 +3,7 @@
 <div class="window_frame"
      style="position:absolute; top: @(offsetY)px; left: @(offsetX)px; width: @(Width)px; height: @(Height)px;" hidden="@(!ReadyToShow)"  @ref="@windowRef">
     <div class="title_bar" draggable="true" 
-         @ondragend="OnDragEnd" @ondragstart="OnDragStart">
+          @ondragstart="OnDragStart" @ondragend="OnDragEnd" @ondblclick="MaximiseOrUnmaximise"> 
         <div>@Title</div>
         <div class="button_div">
             @foreach (TitleButtonData item in TitleButtons)
@@ -21,10 +21,10 @@
     [Parameter]
     public string Title { get;set;}
     [Parameter]
-    public RenderFragment ChildContent { get;set;}
+    public RenderFragment ChildContent { get; set; }
 
     [Parameter]
-    public int WindowDragPadding { get;set;} = 5;
+    public int WindowDragPadding { get; set; } = 5;
 
     private List<TitleButtonData> TitleButtons;
 
@@ -71,6 +71,32 @@
 
             TitleButtons.Add(new TitleButtonData(website,url));
         }
+    }
+
+    private double prevWidth, prevHeight, prevOffsetX, prevOffsetY;
+    private bool isMaximised = false;
+
+    private void MaximiseOrUnmaximise()
+    {
+        if (!isMaximised)
+        {
+            prevOffsetX = offsetX;
+            prevOffsetY = offsetY;
+            prevHeight = Height;
+            prevWidth = Width;
+            Width = windowDims.Width - 2 * WindowDragPadding;
+            Height = windowDims.Height - 2 * WindowDragPadding;
+            offsetX = offsetY = WindowDragPadding;
+        }
+        else
+        {
+            Width = prevWidth;
+            Height = prevHeight;
+            offsetX = prevOffsetX;
+            offsetY = prevOffsetY;
+        }
+
+        isMaximised = !isMaximised;
     }
 
 
