@@ -1,9 +1,9 @@
 ﻿@inject IJSRuntime JS
 
 <div class="window_frame"
-     style="position:absolute; top: @(offsetY)px; left: @(offsetX)px; width: @(Width)px; height: @(Height)px;" hidden="@(!ReadyToShow)"  @ref="@windowRef">
-    <div class="title_bar" draggable="true" 
-          @ondragstart="OnDragStart" @ondragend="OnDragEnd" @ondblclick="MaximiseOrUnmaximise"> 
+     style=" top: @(offsetY)px; left: @(offsetX)px; width: @(Width)px; height: @(Height)px; resize:@((!isMaximised ? "both" : "none"));" hidden="@(!ReadyToShow)" @ref="@windowRef">
+    <div class="title_bar" draggable="@((!isMaximised ? "true" : "false"))"
+         @ondragstart="OnDragStart" @ondragend="OnDragEnd" @ondblclick="MaximiseOrUnmaximise">
         <div>@Title</div>
         <div class="button_div">
             @foreach (TitleButtonData item in TitleButtons)
@@ -100,7 +100,7 @@
 
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
-         return base.OnAfterRenderAsync(firstRender);
+        return base.OnAfterRenderAsync(firstRender);
     }
 
     /// <summary>
@@ -126,8 +126,8 @@
             offsetX = prevOffsetX;
             offsetY = prevOffsetY;
         }
-        StateHasChanged();
         isMaximised = !isMaximised;
+        StateHasChanged();
     }
 
     private double startX, startY, offsetX, offsetY;
