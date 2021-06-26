@@ -28,7 +28,7 @@ namespace TerminalSite.Models
 
             IEnumerable<IFileSystemObject> directories = directoriessection.Exists() ?  directoriessection.GetChildren().Select(file => ParseDirectory(file)) : new List<IFileSystemObject>();
 
-            return new Directory(DirectoryName) { Children = directories.Union(files).ToList() };
+            return new Directory(DirectoryName).SetChildren( directories.Union(files) );
         }
 
         private static File ParseFile(IConfigurationSection section)

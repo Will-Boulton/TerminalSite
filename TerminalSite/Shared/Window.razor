@@ -1,7 +1,7 @@
 ﻿@inject IJSRuntime JS
 
 <div class="window_frame" 
-     style="position:absolute; top: @(offsetY)px; left: @(offsetX)px; "  @ref="@windowRef">
+     style="position:absolute; top: @(offsetY)px; left: @(offsetX)px; "hidden="@(!ReadyToShow)"  @ref="@windowRef">
     <div class="title_bar" draggable="true" 
          @ondragend="OnDragEnd" @ondragstart="OnDragStart">
         <div>@Title</div>

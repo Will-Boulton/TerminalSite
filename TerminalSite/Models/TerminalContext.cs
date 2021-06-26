@@ -24,6 +24,15 @@ namespace TerminalSite.Models
             Name = name;
         }
 
+        public Directory SetChildren(IEnumerable<IFileSystemObject> children)
+        {
+            foreach (var item in children)
+            {
+                AddChild(item);
+            }
+            return this;
+        }
+
         public void AddChild(IFileSystemObject d)
         {
             Children.Add(d);
