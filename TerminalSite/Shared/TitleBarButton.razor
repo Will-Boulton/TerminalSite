@@ -1,9 +1,9 @@
 ﻿@inject IJSRuntime JS
 
-<i class="fab fa-@(ButtonIconClass.ToLower()) icon" @onclick="@OpenLinkInNewTab"></i>
+<i class="fab fa-@(Website.ToLower()) icon" @onclick="@OpenLinkInNewTab"></i>
 
 @code {
-    [Parameter] public string ButtonIconClass { get; set; }
+    [Parameter] public string Website { get; set; }
 
     [Parameter] public string Link { get; set; }
 

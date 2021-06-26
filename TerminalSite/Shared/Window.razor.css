@@ -1,13 +1,15 @@
 ﻿.window_frame {
     box-shadow: 5px 5px 24px 1px rgba(0,0,0,0.67);
-    width: 70%;
-    height: 70%;
     border-radius: 5px;
     border: 1px solid black;
-    background: #262626E6;
-    display:flex;
-    flex-direction:column;
-    overflow:hidden;
+    background: #9e13d025;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    backdrop-filter: hue-rotate( 120deg ) blur(1px);
+    resize: both;
+    min-height: 40px;
+    min-width: 100px;
 }
 
 .title_bar {
