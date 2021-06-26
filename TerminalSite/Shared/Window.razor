@@ -47,17 +47,39 @@
     /// <returns></returns>
     private async Task SetInitialPos()
     {
-        windowDims = await JS.InvokeAsync<WindowDimension>("getWindowDimensions");
+        windowDims = await getWindowDims();
         Width = 0.7 * windowDims.Width;
         Height = 0.7 * windowDims.Height;
         StateHasChanged();
-        var result = await JS.InvokeAsync<BoundingClientRect>("getBoundingClientRect", new object[] { windowRef });
+        var result = await getBoundingClientRect(windowRef);
         offsetX = (windowDims.Width - result.Width) / 2;
         offsetY = (windowDims.Height - result.Height) / 2;
         ReadyToShow = true;
         StateHasChanged();
     }
 
+    /// <summary>
+    /// Get the dimesions of the user's viewport
+    /// </summary>
+    /// <returns></returns>
+    private async Task<WindowDimension> getWindowDims()
+    {
+        return await JS.InvokeAsync<WindowDimension>("getWindowDimensions");
+    }
+
+    /// <summary>
+    /// Get the bounding rectangle for an element
+    /// </summary>
+    /// <param name="refr">element</param>
+    /// <returns></returns>
+    private async Task<BoundingClientRect> getBoundingClientRect(ElementReference refr)
+    {
+        return await JS.InvokeAsync<BoundingClientRect>("getBoundingClientRect", new object[] { refr });
+    }
+
+    /// <summary>
+    /// Put the title buttons in place on the taskbar
+    /// </summary>
     private void MakeTitleButtons()
     {
         TitleButtons = new List<TitleButtonData>();
@@ -76,14 +98,23 @@
     private double prevWidth, prevHeight, prevOffsetX, prevOffsetY;
     private bool isMaximised = false;
 
-    private void MaximiseOrUnmaximise()
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+         return base.OnAfterRenderAsync(firstRender);
+    }
+
+    /// <summary>
+    /// Maximise the window if it isn't maximised and do the opposite if it is
+    /// </summary>
+    private async void MaximiseOrUnmaximise()
     {
         if (!isMaximised)
         {
+            var result = await getBoundingClientRect(windowRef);
+            prevWidth = result.Width;
+            prevHeight = result.Height;
             prevOffsetX = offsetX;
             prevOffsetY = offsetY;
-            prevHeight = Height;
-            prevWidth = Width;
             Width = windowDims.Width - 2 * WindowDragPadding;
             Height = windowDims.Height - 2 * WindowDragPadding;
             offsetX = offsetY = WindowDragPadding;
@@ -95,10 +126,9 @@
             offsetX = prevOffsetX;
             offsetY = prevOffsetY;
         }
-
+        StateHasChanged();
         isMaximised = !isMaximised;
     }
-
 
     private double startX, startY, offsetX, offsetY;
     private void OnDragStart(DragEventArgs args)
@@ -109,12 +139,12 @@
 
     private async void OnDragEnd(DragEventArgs args)
     {
-        var result = await JS.InvokeAsync<BoundingClientRect>("getBoundingClientRect", new object[]{ windowRef });
+        var result = await getBoundingClientRect(windowRef);
         Width = result.Width;
         Height = result.Height;
 
-        offsetX = Math.Min(Math.Max( offsetX  + (args.ClientX - startX), WindowDragPadding), windowDims.Width - result.Width - WindowDragPadding);
-        offsetY = Math.Min(Math.Max( offsetY  + (args.ClientY - startY), WindowDragPadding), windowDims.Height - result.Height - WindowDragPadding);
+        offsetX = Math.Min(Math.Max( offsetX  + (args.ClientX - startX), WindowDragPadding), windowDims.Width - Width - WindowDragPadding);
+        offsetY = Math.Min(Math.Max( offsetY  + (args.ClientY - startY), WindowDragPadding), windowDims.Height - Height - WindowDragPadding);
         StateHasChanged();
     }
 }
