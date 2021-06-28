@@ -10,12 +10,14 @@ html, body {
     background: #d2d2d2;
     background-image: radial-gradient(#2f77ec 5%, transparent 0);
     background-size: 30px 30px;
+    animation: gradient 60s linear infinite;
 }
 
 .dark {
     background: #2D2D2D;
     background-image: radial-gradient(#d08813 5%, transparent 0);
     background-size: 30px 30px;
+    animation: gradient 60s linear infinite;
 }
 
 .app{
@@ -28,6 +30,16 @@ html, body {
     justify-content: center;
     height: 100%;
     width: 100%;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 100% 100%;
+    }
 }
 
 @font-face{
