@@ -1,6 +1,6 @@
 ﻿@inject IJSRuntime JS
 
-<div class="window_frame"
+<div class="window_frame @(themeController.SelectedTheme)"
      style=" top: @(offsetY)px; left: @(offsetX)px; width: @(Width)px; height: @(Height)px; resize:@((!isMaximised ? "both" : "none"));" hidden="@(!ReadyToShow)" @ref="@windowRef">
     <div class="title_bar" draggable="@((!isMaximised ? "true" : "false"))"
          @ondragstart="OnDragStart" @ondragend="OnDragEnd" @ondblclick="MaximiseOrUnmaximise">
@@ -25,6 +25,8 @@
 
     [Parameter]
     public int WindowDragPadding { get; set; } = 5;
+
+    [CascadingParameter] public ThemeController themeController { get; set; }
 
     private List<TitleButtonData> TitleButtons;
 
