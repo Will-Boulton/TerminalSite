@@ -17,7 +17,7 @@ namespace TerminalSite.Commands
 
         public override string CommandKey => "cat";
 
-        public override async void Execute(Terminal terminal, CommandResponseBlock output, params string[] parameters)
+        public override void Execute(Terminal terminal, CommandResponseBlock output, params string[] parameters)
         {
             if(parameters.Length == 0)
                 PrintCat(output);
@@ -26,7 +26,7 @@ namespace TerminalSite.Commands
 
         }
 
-        private async void PrintFile(Terminal terminal, CommandResponseBlock output, params string[] parameters)
+        private void PrintFile(Terminal terminal, CommandResponseBlock output, params string[] parameters)
         {
             string file = parameters[0];
 

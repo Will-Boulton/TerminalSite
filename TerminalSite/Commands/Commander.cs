@@ -22,6 +22,7 @@ namespace TerminalSite.Commands
             AddCommand(new HelpCommand());
             AddCommand(new LS());
             AddCommand(new CD());
+            AddCommand(new ThemeChooser());
             InitSitecommands(websiteConfig.GetSection("Sites"));
 
         }

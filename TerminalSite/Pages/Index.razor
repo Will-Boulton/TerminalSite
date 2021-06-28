@@ -2,12 +2,15 @@
 @inject IJSRuntime JSRuntime
 @using TerminalSite.Configuration;
 
+<Terminal prompt="@m" />
 
-    <Terminal prompt="@m"/>
+    
 
 
 @code{
     private PromptContext m = new PromptContext(){ Separator = "^", CurrentDirectory = FileSystem.root, User = "admin"};
+
+
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

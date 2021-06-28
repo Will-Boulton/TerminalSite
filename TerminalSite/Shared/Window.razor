@@ -108,6 +108,8 @@
     /// </summary>
     private async void MaximiseOrUnmaximise()
     {
+        windowDims = await getWindowDims();
+
         if (!isMaximised)
         {
             var result = await getBoundingClientRect(windowRef);
@@ -139,6 +141,7 @@
 
     private async void OnDragEnd(DragEventArgs args)
     {
+        windowDims = await getWindowDims();
         var result = await getBoundingClientRect(windowRef);
         Width = result.Width;
         Height = result.Height;

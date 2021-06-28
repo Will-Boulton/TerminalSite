@@ -1,6 +1,29 @@
 ﻿@inherits LayoutComponentBase
-<div class="page">
-    <Window Title="Will Boulton">
-        @Body
-    </Window>
-</div>
+<CascadingValue Value="themeController">
+    <div class="page @(themeController.SelectedTheme)">
+        <Window Title="Will Boulton">
+            @Body
+        </Window>
+    </div>
+</CascadingValue>
+@code{
+
+    ThemeController themeController;
+
+    protected override Task OnInitializedAsync()
+    {
+        themeController = new ThemeController();
+
+        themeController.PropertyChanged += ThemeChanged;
+
+        return base.OnInitializedAsync();
+    }
+
+    private void ThemeChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ThemeController.SelectedTheme))
+        {
+            StateHasChanged();
+        }
+    }
+}
