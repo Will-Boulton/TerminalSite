@@ -15,23 +15,17 @@ namespace TerminalSite.Commands
 
         public override void Execute(Terminal terminal, CommandResponseBlock output, params string[] parameters)
         {
-            if(parameters.Length != 1)
+            if (parameters.Length != 1 || parameters[0].Equals("-c") || parameters[0].Equals("current"))
             {
-                output.AddResponse(new CommandResponse("Invalid theme set parameters"));
-                return;
+                output.AddResponse(new CommandResponse($"{terminal.themeController.SelectedTheme}"));
             }
-
-            if(terminal.themeController.ThemeNames.TryGetValue(parameters[0], out Theme theme))
+            else if (terminal.themeController.ThemeNames.TryGetValue(parameters[0], out Theme theme))
             {
                 terminal.themeController.SetTheme(theme);
             }
-            else if(parameters[0].Equals("-c") || parameters[0].Equals("current"))
-            {
-                output.AddResponse(new CommandResponse($"The current theme is: {terminal.themeController.SelectedTheme}"));
-            }
             else
             {
-                output.AddResponse(new CommandResponse($"Theme \"{parameters[0]} is invalid"));
+                output.AddResponse(new CommandResponse($"Theme \"{parameters[0]}\" is invalid"));
 
             }
         }
