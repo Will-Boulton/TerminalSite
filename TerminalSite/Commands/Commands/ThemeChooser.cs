@@ -11,7 +11,9 @@ namespace TerminalSite.Commands
     {
         public override string CommandKey => "theme";
 
-        public override string HelpString => "Set the theme for the site";
+        public override string HelpString => "Set the theme for the site, to see all themes run the command 'theme -l'";
+
+        protected override List<string> SetAdditionalHelpStrings() => ThemeController.ThemeNames.Select(t => t.Key).ToList();
 
         public override void Execute(Terminal terminal, CommandResponseBlock output, params string[] parameters)
         {
@@ -19,9 +21,17 @@ namespace TerminalSite.Commands
             {
                 output.AddResponse(new CommandResponse($"{terminal.themeController.SelectedTheme}"));
             }
-            else if (terminal.themeController.ThemeNames.TryGetValue(parameters[0], out Theme theme))
+            else if (ThemeController.ThemeNames.TryGetValue(parameters[0], out Theme theme))
             {
                 terminal.themeController.SetTheme(theme);
+            }
+            else if (parameters[0].Equals("-l") || parameters[0].Equals("list"))
+            {
+                output.AddResponse(new CommandResponse($"Avaliable Themes:"));
+                foreach (var themeName in ThemeController.ThemeNames)
+                {
+                    output.AddResponse(new CommandResponse($"\t{themeName.Key}"));
+                }
             }
             else
             {

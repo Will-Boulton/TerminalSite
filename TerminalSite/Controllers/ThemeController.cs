@@ -74,12 +74,12 @@ namespace TerminalSite.Controllers
         /// <summary>
         /// CSS class names for each theme
         /// </summary>
-        private  readonly Dictionary<Theme, string> ThemeClasses = new Dictionary<Theme, string>() { { Theme.Dark, "dark" }, { Theme.Light, "light" } };
+        private static readonly Dictionary<Theme, string> ThemeClasses = new Dictionary<Theme, string>() { { Theme.Dark, "dark" }, { Theme.Light, "light" } };
 
         /// <summary>
         /// Names for each theme
         /// </summary>
-        public  readonly Dictionary<string, Theme> ThemeNames = new Dictionary<string, Theme>()
+        public static readonly Dictionary<string, Theme> ThemeNames = new Dictionary<string, Theme>()
         {
             { "light",Theme.Light },
             { "dark",Theme.Dark }
