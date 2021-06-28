@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using TerminalSite.Commands;
 using TerminalSite.Configuration;
 using TerminalSite.Models;
+using Blazored.LocalStorage;
 
 namespace TerminalSite
 {
@@ -27,6 +28,8 @@ namespace TerminalSite
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddBlazoredLocalStorage();
+
             await builder.Build().RunAsync();
         }
     }

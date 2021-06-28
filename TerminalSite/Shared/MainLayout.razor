@@ -1,4 +1,5 @@
-﻿@inherits LayoutComponentBase
+﻿@inject Blazored.LocalStorage.ISyncLocalStorageService  localStorage
+@inherits LayoutComponentBase
 <CascadingValue Value="themeController">
     <div class="page @(themeController.SelectedTheme)">
         <Window Title="Will Boulton">
@@ -10,13 +11,16 @@
 
     ThemeController themeController;
 
-    protected override Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        themeController = new ThemeController();
+
+        themeController = new ThemeController(localStorage);
 
         themeController.PropertyChanged += ThemeChanged;
+        
 
-        return base.OnInitializedAsync();
+
+        base.OnInitializedAsync();
     }
 
     private void ThemeChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
