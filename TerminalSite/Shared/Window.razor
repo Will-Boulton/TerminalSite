@@ -1,10 +1,13 @@
 ﻿@inject IJSRuntime JS
 
 <div class="window_frame @(themeController.SelectedTheme)"
+     draggable="@((!isMaximised ? "true" : "false"))" 
+     @ondragstart="OnDragStart"  
+     @ondragend="OnDragEnd"
      style=" top: @(offsetY)px; left: @(offsetX)px; width: @(Width)px; height: @(Height)px; resize:@((!isMaximised ? "both" : "none"));" hidden="@(!ReadyToShow)" @ref="@windowRef">
-    <div class="title_bar" draggable="@((!isMaximised ? "true" : "false"))"
-         @ondragstart="OnDragStart" @ondragend="OnDragEnd" @ondblclick="MaximiseOrUnmaximise">
-        <div>@Title</div>
+    <div class="title_bar" 
+         @ondblclick="MaximiseOrUnmaximise">
+        <div style="color:black;">@Title</div>
         <div class="button_div">
             @foreach (TitleButtonData item in TitleButtons)
             {
@@ -12,7 +15,12 @@
             }
         </div>
     </div>
-    <div class="window_content">
+    <div class="window_content" 
+         draggable="true"
+         @ondragstart:preventDefault="true"
+         @ondragstart:stopPropagation ="true"
+         @ondragend:preventDefault="true"
+         @ondragend:stopPropagation ="true">
         @ChildContent
     </div>
 </div>
@@ -100,11 +108,6 @@
     private double prevWidth, prevHeight, prevOffsetX, prevOffsetY;
     private bool isMaximised = false;
 
-    protected override Task OnAfterRenderAsync(bool firstRender)
-    {
-        return base.OnAfterRenderAsync(firstRender);
-    }
-
     /// <summary>
     /// Maximise the window if it isn't maximised and do the opposite if it is
     /// </summary>
@@ -135,21 +138,17 @@
     }
 
     private double startX, startY, offsetX, offsetY;
-    private void OnDragStart(DragEventArgs args)
+
+    private async void OnDragStart(DragEventArgs args)
     {
+        windowDims = await getWindowDims();
         startX = args.ClientX;
         startY = args.ClientY;
     }
 
-    private async void OnDragEnd(DragEventArgs args)
+    private void OnDragEnd(DragEventArgs args)
     {
-        windowDims = await getWindowDims();
-        var result = await getBoundingClientRect(windowRef);
-        Width = result.Width;
-        Height = result.Height;
-
         offsetX = Math.Min(Math.Max( offsetX  + (args.ClientX - startX), WindowDragPadding), windowDims.Width - Width - WindowDragPadding);
         offsetY = Math.Min(Math.Max( offsetY  + (args.ClientY - startY), WindowDragPadding), windowDims.Height - Height - WindowDragPadding);
-        StateHasChanged();
     }
 }
