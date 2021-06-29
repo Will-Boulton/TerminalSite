@@ -1,19 +1,34 @@
 ﻿@page "/"
 @inject IJSRuntime JSRuntime
 @using TerminalSite.Configuration;
-<Window Title="Will Boulton">
-    <Terminal prompt="@m" />
-</Window>
+
+@switch(currentPage)
+{
+    case MainLayout.MyPages.Desktop:
+        <Window Title="Will Boulton">
+            <Terminal prompt="@m" />
+        </Window>
+        
+        break;
+    case MainLayout.MyPages.Portfolio:
+        <Portfolio/>
+        break;
+    
+}
 
 
 
 @code{
+
     private PromptContext m = new PromptContext() { Separator = "^", CurrentDirectory = FileSystem.root, User = "admin" };
 
-
+    [CascadingParameter] MainLayout.MyPages currentPage { get;set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await JSRuntime.InvokeVoidAsync("setTitle", SiteConfig.config["SiteName"]); ;
     }
+
+
+
 }

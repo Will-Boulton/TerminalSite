@@ -1,11 +1,16 @@
 ﻿@inject Blazored.LocalStorage.ISyncLocalStorageService  localStorage
 @inherits LayoutComponentBase
 <CascadingValue Value="themeController">
-    <div class="page @(themeController.SelectedTheme)">
+    <CascadingValue Value="currentPage">
+        <div class="page @(themeController.SelectedTheme)">
             @Body
-    </div>
+        </div>
+    </CascadingValue>
 </CascadingValue>
 @code{
+
+
+    private MyPages currentPage = MyPages.Desktop;
 
     ThemeController themeController;
 
@@ -15,7 +20,7 @@
         themeController = new ThemeController(localStorage);
 
         themeController.PropertyChanged += ThemeChanged;
-        
+
 
 
         base.OnInitializedAsync();
@@ -27,5 +32,11 @@
         {
             StateHasChanged();
         }
+    }
+
+    public enum MyPages
+    {
+        Desktop,
+        Portfolio
     }
 }
