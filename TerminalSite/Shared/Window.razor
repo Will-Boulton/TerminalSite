@@ -142,6 +142,9 @@
     private async void OnDragStart(DragEventArgs args)
     {
         windowDims = await getWindowDims();
+        var result = await getBoundingClientRect(windowRef);
+        Width = result.Width;
+        Height = result.Height;
         startX = args.ClientX;
         startY = args.ClientY;
     }
