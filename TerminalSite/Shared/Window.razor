@@ -6,7 +6,7 @@
      @ondragend="OnDragEnd"
      style=" top: @(offsetY)px; left: @(offsetX)px; width: @(Width)px; height: @(Height)px; resize:@((!isMaximised ? "both" : "none"));" hidden="@(!ReadyToShow)" @ref="@windowRef">
     <div class="title_bar" 
-         @ondblclick="MaximiseOrUnmaximise">
+         @ondblclick="ToggleMaximise">
         <div style="color:black;">@Title</div>
         <div class="button_div">
             @foreach (TitleButtonData item in TitleButtons)
@@ -26,15 +26,16 @@
 </div>
 
 @code {
-    [Parameter]
-    public string Title { get;set;}
-    [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    [Parameter] public string Title { get;set;}
 
-    [Parameter]
-    public int WindowDragPadding { get; set; } = 5;
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [Parameter] public int WindowDragPadding { get; set; } = 5;
 
     [CascadingParameter] public ThemeController themeController { get; set; }
+
+    [Parameter] public bool isMaximised { get; set; } = false;
+
 
     private List<TitleButtonData> TitleButtons;
 
@@ -50,7 +51,6 @@
         base.OnInitialized();
         MakeTitleButtons();
     }
-
     /// <summary>
     /// Sets the inital position of the window inside the desktop
     /// </summary>
@@ -58,12 +58,20 @@
     private async Task SetInitialPos()
     {
         windowDims = await getWindowDims();
-        Width = 0.7 * windowDims.Width;
-        Height = 0.7 * windowDims.Height;
-        StateHasChanged();
-        var result = await getBoundingClientRect(windowRef);
-        offsetX = (windowDims.Width - result.Width) / 2;
-        offsetY = (windowDims.Height - result.Height) / 2;
+
+        if (isMaximised)
+        {
+            Maximise();
+        }
+        else
+        {
+            Width = 0.7 * windowDims.Width;
+            Height = 0.7 * windowDims.Height;
+            StateHasChanged();
+            var windowAreaDimensions = await getBoundingClientRect(windowRef);
+            offsetX = (windowDims.Width - windowAreaDimensions.Width) / 2;
+            offsetY = (windowDims.Height - windowAreaDimensions.Height) / 2;
+        }
         ReadyToShow = true;
         StateHasChanged();
     }
@@ -105,13 +113,11 @@
         }
     }
 
-    private double prevWidth, prevHeight, prevOffsetX, prevOffsetY;
-    private bool isMaximised = false;
-
+    private double? prevWidth, prevHeight, prevOffsetX, prevOffsetY;
     /// <summary>
     /// Maximise the window if it isn't maximised and do the opposite if it is
     /// </summary>
-    private async void MaximiseOrUnmaximise()
+    private async void ToggleMaximise()
     {
         windowDims = await getWindowDims();
 
@@ -120,20 +126,31 @@
             var result = await getBoundingClientRect(windowRef);
             prevWidth = result.Width;
             prevHeight = result.Height;
-            prevOffsetX = offsetX;
-            prevOffsetY = offsetY;
-            Width = windowDims.Width - 2 * WindowDragPadding;
-            Height = windowDims.Height - 2 * WindowDragPadding;
-            offsetX = offsetY = WindowDragPadding;
+            Maximise();
         }
         else
-        {
-            Width = prevWidth;
-            Height = prevHeight;
-            offsetX = prevOffsetX;
-            offsetY = prevOffsetY;
-        }
-        isMaximised = !isMaximised;
+            Minimise();
+    }
+
+    private async void Maximise()
+    {
+        prevOffsetX = offsetX;
+        prevOffsetY = offsetY;
+        Width = windowDims.Width - 2 * WindowDragPadding;
+        Height = windowDims.Height - 2 * WindowDragPadding;
+        offsetX = offsetY = WindowDragPadding;
+        isMaximised = true;
+        StateHasChanged();
+    }
+
+    private async void Minimise()
+    {
+
+        Width = prevWidth ?? 0.7 * windowDims.Width;
+        Height = prevHeight ?? 0.7 * windowDims.Height;
+        offsetX = prevOffsetX ?? WindowDragPadding;
+        offsetY = prevOffsetY ?? WindowDragPadding;
+        isMaximised = false;
         StateHasChanged();
     }
 

@@ -48,7 +48,7 @@ namespace TerminalSite.Controllers
         /// <summary>
         /// Currently selected theme
         /// </summary>
-        private  Theme currentTheme { get; set;} = Theme.Dark;
+        public  Theme currentTheme { get; set;} = Theme.Dark;
 
         /// <summary>
         /// Currently selected theme css classname
