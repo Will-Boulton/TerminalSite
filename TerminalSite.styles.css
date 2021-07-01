@@ -1,4 +1,16 @@
 /* /Pages/Index.razor.rz.scp.css */
+/* /Pages/Portfolio.razor.rz.scp.css */
+.portfolio[b-1sp1fczgjo] {
+    width: 100%;
+}
+
+.lightmode[b-1sp1fczgjo] {
+    color: black;
+}
+
+.darkmode[b-1sp1fczgjo] {
+    color: white;
+}
 /* /Shared/Input.razor.rz.scp.css */
 .prompt[b-55ugd8rzcj] {
     -webkit-user-select: none;
