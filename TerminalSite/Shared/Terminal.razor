@@ -1,5 +1,5 @@
-﻿@using TerminalSite.Commands
-@inject IJSRuntime JS
+﻿@inject IJSRuntime JS
+@inject IConfiguration config
 
 <link href="css/Terminal.css" rel="stylesheet" />
 <div class="terminal container" @ref="scroll" @onclick="Focus">
@@ -13,9 +13,12 @@
 </div>
 @code {
 
-    [Parameter] public PromptContext prompt { get; set ;}
+    public PromptContext prompt { get; set; }
 
-    [CascadingParameter] public ThemeController themeController { get;set;}
+    [CascadingParameter] public ThemeController themeController { get; set; }
+
+    public Commander commander;
+    public FileSystem fileSystem;
 
     private List<Input> Inputs;
 
@@ -23,13 +26,17 @@
 
     public CommandStore commandStore;
 
+
     protected override void OnInitialized()
     {
+        commander = new Commander(config);
+        fileSystem = new FileSystem(config.GetSection("filesystem"));
+        prompt = new PromptContext() { Separator = "^", CurrentDirectory = fileSystem.root, User = "admin" };
         commandStore = new CommandStore();
         Inputs = new List<Input>();
         lines = new List<TerminalInputModel>();
 
-        lines.Add(new TerminalInputModel() { Prompt = prompt,Disabled = true, Placeholder = "Welcome! Enter a command to do something." });
+        lines.Add(new TerminalInputModel() { Prompt = prompt, Disabled = true, Placeholder = "Welcome! Enter a command to do something." });
         lines.Add(new TerminalInputModel() { Prompt = prompt, Disabled = true, Placeholder = "" });
         lines.Add(new TerminalInputModel() { Prompt = prompt, Disabled = true, Placeholder = "If you're stuck try 'help'." });
         lines.Add(new TerminalInputModel() { Prompt = prompt });
@@ -43,9 +50,9 @@
         StateHasChanged();
     }
 
-    public void RegisterInput( Input newInput ){ Inputs.Add(newInput); StateHasChanged(); }
+    public void RegisterInput(Input newInput) { Inputs.Add(newInput); StateHasChanged(); }
 
-    public void DisposeInput( Input input){ Inputs.Remove(input); StateHasChanged(); }
+    public void DisposeInput(Input input) { Inputs.Remove(input); StateHasChanged(); }
 
     public void Clear()
     {
@@ -70,7 +77,7 @@
 
     public async void Focus()
     {
-        if(lines.Count > 0)
-            await JS.InvokeVoidAsync("SetFocusToElement", Inputs[lines.Count -1].inputRef);
+        if (lines.Count > 0)
+            await JS.InvokeVoidAsync("SetFocusToElement", Inputs[lines.Count - 1].inputRef);
     }
 }

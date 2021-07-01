@@ -7,9 +7,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using TerminalSite.Commands;
-using TerminalSite.Configuration;
-using TerminalSite.Models;
 using Blazored.LocalStorage;
 
 namespace TerminalSite
@@ -18,12 +15,7 @@ namespace TerminalSite
     {
         public static async Task Main(string[] args)
         {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
-
-            SiteConfig.config = builder.Configuration;
-
-            Commander.Init(builder.Configuration);
-            FileSystem.Init(builder.Configuration.GetSection("filesystem"));
+            var builder = WebAssemblyHostBuilder.CreateDefault(args);            
 
             builder.RootComponents.Add<App>("#app");
 

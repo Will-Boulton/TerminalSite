@@ -3,19 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TerminalSite.Commands;
 
-namespace TerminalSite.Commands
+namespace TerminalSite.Controllers
 {
     /// <summary>
     /// Store for commands which can be used by the terminal
     /// </summary>
-    public static class Commander
+    public class Commander
     {
         /// <summary>
         /// Initialises commands avaliable, custom URL commands can be added from wwwroot/appsettings.json
         /// </summary>
         /// <param name="websiteConfig"></param>
-        public static void Init(IConfiguration websiteConfig)
+        public Commander(IConfiguration websiteConfig)
         {
             AddCommand(new CatCommand());
             AddCommand(new ClearCommand());
@@ -31,7 +32,7 @@ namespace TerminalSite.Commands
         /// Initialises website commands specified in wwwroot/appsettings.json
         /// </summary>
         /// <param name="sites">IConfigurationSection representing the list of sites which are specified in the configuration</param>
-        private static void InitSitecommands(IConfigurationSection sites)
+        private void InitSitecommands(IConfigurationSection sites)
         {
             foreach (var siteConfigItem in sites.GetChildren())
             {
@@ -47,7 +48,7 @@ namespace TerminalSite.Commands
         /// Adds another command to the avaliable commands
         /// </summary>
         /// <param name="c"></param>
-        public static void AddCommand(Command c)
+        public void AddCommand(Command c)
         {
             commands[c.CommandKey.ToLower()] = c;
         }

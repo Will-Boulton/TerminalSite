@@ -12,7 +12,7 @@ namespace TerminalSite.Controllers
     /// <summary>
     /// Class used to control the currently selected theme applied to the site
     /// </summary>
-    public  class ThemeController : INotifyPropertyChanged
+    public  class ThemeController :  INotifyPropertyChanged
     {
         private readonly string STORAGE_KEY = "theme";
 
@@ -48,7 +48,7 @@ namespace TerminalSite.Controllers
         /// <summary>
         /// Currently selected theme
         /// </summary>
-        public  Theme currentTheme { get; set;} = Theme.Dark;
+        public  Theme currentTheme { get; private set;} = Theme.Dark;
 
         /// <summary>
         /// Currently selected theme css classname

@@ -64,7 +64,6 @@
         {
             string[] parameters = input_command.Split(null);
 
-            var commands = Commander.commands;
             if (Commander.commands.TryGetValue(parameters[0].ToLower(), out Command command))
             {
                 command.Execute(Terminal, output, parameters.Skip(1).ToArray());

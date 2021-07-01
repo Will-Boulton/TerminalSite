@@ -1,11 +1,12 @@
 ﻿@inject IJSRuntime JS
+@inject IConfiguration config
 
 <div class="window_frame @(themeController.SelectedTheme)"
-     draggable="@((!isMaximised ? "true" : "false"))" 
-     @ondragstart="OnDragStart"  
+     draggable="@((!isMaximised ? "true" : "false"))"
+     @ondragstart="OnDragStart"
      @ondragend="OnDragEnd"
      style=" top: @(offsetY)px; left: @(offsetX)px; width: @(Width)px; height: @(Height)px; resize:@((!isMaximised ? "both" : "none"));" hidden="@(!ReadyToShow)" @ref="@windowRef">
-    <div class="title_bar" 
+    <div class="title_bar"
          @ondblclick="ToggleMaximise">
         <div style="color:black;">@Title</div>
         <div class="button_div">
@@ -15,18 +16,18 @@
             }
         </div>
     </div>
-    <div class="window_content" 
+    <div class="window_content"
          draggable="true"
          @ondragstart:preventDefault="true"
-         @ondragstart:stopPropagation ="true"
+         @ondragstart:stopPropagation="true"
          @ondragend:preventDefault="true"
-         @ondragend:stopPropagation ="true">
+         @ondragend:stopPropagation="true">
         @ChildContent
     </div>
 </div>
 
 @code {
-    [Parameter] public string Title { get;set;}
+    [Parameter] public string Title { get; set; }
 
     [Parameter] public RenderFragment ChildContent { get; set; }
 
@@ -102,14 +103,14 @@
     {
         TitleButtons = new List<TitleButtonData>();
 
-        var sites = SiteConfig.config.GetSection("Sites");
+        var sites = config.GetSection("Sites");
         foreach (var siteConfigItem in sites.GetChildren())
         {
             string url = siteConfigItem["URL"];
 
             string website = siteConfigItem["Website"];
 
-            TitleButtons.Add(new TitleButtonData(website,url));
+            TitleButtons.Add(new TitleButtonData(website, url));
         }
     }
 
@@ -132,7 +133,7 @@
             Minimise();
     }
 
-    private async void Maximise()
+    private void Maximise()
     {
         prevOffsetX = offsetX;
         prevOffsetY = offsetY;
@@ -143,7 +144,7 @@
         StateHasChanged();
     }
 
-    private async void Minimise()
+    private void Minimise()
     {
 
         Width = prevWidth ?? 0.7 * windowDims.Width;
@@ -168,7 +169,7 @@
 
     private void OnDragEnd(DragEventArgs args)
     {
-        offsetX = Math.Min(Math.Max( offsetX  + (args.ClientX - startX), WindowDragPadding), windowDims.Width - Width - WindowDragPadding);
-        offsetY = Math.Min(Math.Max( offsetY  + (args.ClientY - startY), WindowDragPadding), windowDims.Height - Height - WindowDragPadding);
+        offsetX = Math.Min(Math.Max(offsetX + (args.ClientX - startX), WindowDragPadding), windowDims.Width - Width - WindowDragPadding);
+        offsetY = Math.Min(Math.Max(offsetY + (args.ClientY - startY), WindowDragPadding), windowDims.Height - Height - WindowDragPadding);
     }
 }

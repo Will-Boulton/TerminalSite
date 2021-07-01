@@ -3,19 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TerminalSite.Models;
 
-namespace TerminalSite.Models
+namespace TerminalSite.Controllers
 {
-    public static class FileSystem
+    public class FileSystem
     {
-        public static Directory root;
+        public Directory root;
 
-        public static void Init(IConfigurationSection fileSystem)
+        public FileSystem(IConfigurationSection fileSystem)
         {
             root = ParseDirectory(fileSystem);
         }
 
-        private static Directory ParseDirectory(IConfigurationSection section)
+        private Directory ParseDirectory(IConfigurationSection section)
         {
             string DirectoryName = section["name"];
 
@@ -31,7 +32,7 @@ namespace TerminalSite.Models
             return new Directory(DirectoryName).SetChildren( directories.Union(files) );
         }
 
-        private static File ParseFile(IConfigurationSection section)
+        private File ParseFile(IConfigurationSection section)
         {
             string filename = section["name"];
             string extension = section["extension"];
