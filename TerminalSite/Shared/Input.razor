@@ -9,6 +9,8 @@
            disabled="@Model.Disabled" 
            autofocus
            @ref="inputRef" 
+           @onkeydown="@KeyDown"
+           @onkeydown:preventDefault="@PreventDefaultInput"@*Need to replace this with a js interop version*@
            @onkeyup="@KeyUp" 
            @bind="Model.Value" 
     />
@@ -24,6 +26,20 @@
     private CommandResponseBlock output;
 
     public ElementReference inputRef;
+
+    private bool PreventDefaultInput = false;
+
+    private void KeyDown(KeyboardEventArgs e)
+    {
+        if(e.Code == "Tab") 
+        {
+            PreventDefaultInput = true;
+            Model.Value = Commander.AutoComplete(Model.Value) ?? Model.Value;
+
+        }
+
+        PreventDefaultInput = false;
+    }
 
     private void KeyUp(KeyboardEventArgs e)
     {
