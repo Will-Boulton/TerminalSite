@@ -57,5 +57,33 @@ namespace TerminalSite.Controllers
         /// Dictionary mapping command keys to commands
         /// </summary>
         public static Dictionary<string, Command> commands = new Dictionary<string, Command>();
+
+        public static string AutoComplete(string commandString)
+        {
+            if(commandString == null)
+                return null;
+
+            string[] cmdAndArgs = commandString.Split(null);
+
+            //We have no command so tab is useless 
+            if(cmdAndArgs.Length == 0)
+                return "";
+
+            //We find a direct match for the provided command name
+            if(commands.TryGetValue(cmdAndArgs[0], out Command matchedCommand))
+            {
+                //We don't have any params so just do nothing
+                if(cmdAndArgs.Length == 1)
+                    return matchedCommand.CommandKey;
+
+                //Otherwise we hand over autocomplete to the command
+                return matchedCommand.AutoComplete(cmdAndArgs.Skip(1));
+            }
+            
+            //No matched command but a command name is specified
+            //Now we look for the closest match to the given command name
+            return StringDistanceUtils.ClosestMatch(cmdAndArgs[0], commands.Keys);
+            
+        }
     }
 }
