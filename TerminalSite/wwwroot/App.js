@@ -21,4 +21,4 @@ preventTab = function (componentReference, inputReference) {
             componentReference.invokeMethodAsync("AutoComplete",inputReference.value);
         }
     };
-}
+};
