@@ -41,6 +41,6 @@ namespace TerminalSite.Commands
         /// <param name="parameters">Params used to modify command behaviour</param>
         public abstract void Execute(Terminal terminal, CommandResponseBlock output, params string[] parameters);
 
-        public virtual string AutoComplete(IEnumerable<string> args) => CommandKey + " "+ String.Join(' ', args);
+        public virtual string AutoComplete(IEnumerable<string> args) => CommandKey.ToLower() + " "+ String.Join(' ', args);
     }
 }

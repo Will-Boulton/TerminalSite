@@ -74,7 +74,7 @@ namespace TerminalSite.Controllers
             {
                 //We don't have any params so just do nothing
                 if(cmdAndArgs.Length == 1)
-                    return matchedCommand.CommandKey;
+                    return matchedCommand.CommandKey.ToLower();
 
                 //Otherwise we hand over autocomplete to the command
                 return matchedCommand.AutoComplete(cmdAndArgs.Skip(1));
