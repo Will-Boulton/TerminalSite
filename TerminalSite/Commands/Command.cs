@@ -40,5 +40,7 @@ namespace TerminalSite.Commands
         /// <param name="output">Dedicated block to add responses to</param>
         /// <param name="parameters">Params used to modify command behaviour</param>
         public abstract void Execute(Terminal terminal, CommandResponseBlock output, params string[] parameters);
+
+        public virtual string AutoComplete(IEnumerable<string> args) => CommandKey.ToLower() + " "+ String.Join(' ', args);
     }
 }

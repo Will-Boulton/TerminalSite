@@ -25,6 +25,22 @@
 
     public ElementReference inputRef;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var thisRef = DotNetObjectReference.Create(this);
+            await jsRuntime.InvokeAsync<object>("preventTab", new object[] { thisRef, inputRef });
+        }
+    }
+
+    [JSInvokable("AutoComplete")]
+    public async Task AutoComplete(string input)
+    {
+        Model.Value = Commander.AutoComplete(input) ?? input;
+        StateHasChanged();
+    }
+
     private void KeyUp(KeyboardEventArgs e)
     {
         if (e.Code == "Enter" || e.Code == "NumpadEnter")
